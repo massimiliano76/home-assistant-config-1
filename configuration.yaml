@@ -1,0 +1,125 @@
+homeassistant:
+  name: Geral
+  latitude: !secret latitude_home
+  longitude: !secret longitude_home
+  elevation: 17
+  unit_system: metric
+  time_zone: Europe/Lisbon
+  customize: !include customize.yaml
+  customize_glob: !include customize_glob.yaml
+  packages: !include_dir_named packages
+config:
+
+
+
+
+
+frontend:
+  themes: !include_dir_merge_named themes/
+  extra_html_url:
+    - /local/custom_ui/state-card-custom-ui.html
+  extra_html_url_es5:
+    - /local/custom_ui/state-card-custom-ui-es5.html
+  
+
+mqtt:
+  broker: 127.0.0.1
+  port: 1883
+  username: !secret username_mqtt
+  password: !secret password_mqtt
+  keepalive: 60
+  
+  
+xiaomi_aqara:
+  discovery_retry: 5
+  gateways:   
+    - mac: !secret xiaomi_mac
+      key: !secret xiaomi_key
+      host: 192.168.1.79
+
+
+
+
+
+
+############
+# INCLUDES #
+############
+group: !include groups.yaml
+sensor: !include sensor.yaml
+device_tracker: !include device_tracker.yaml
+tts: !include googletts.yaml
+input_boolean: !include input_booleans.yaml
+zone: !include zones.yaml
+camera: !include cameras.yaml
+input_select: !include input_select.yaml
+automation: !include automation.yaml
+proximity: !include_dir_merge_named proximity
+history_graph: !include history_graph.yaml
+
+
+
+
+
+telegram_bot:
+  platform: polling
+  api_key: !secret api_key_telegram
+  allowed_chat_ids:
+    - !secret chatid01
+    - !secret chatid02
+    - !secret chatid03
+    
+android_ip_webcam:
+  - name: 'Porta Escada'
+    host: 192.168.1.76
+
+
+
+      
+media_player:
+  - platform: mediaroom
+    host: 192.168.1.64
+    name: "vodafone STB"
+    optimistic: True
+    
+  - platform: kodi
+    name: zonacentral
+    host: 192.168.1.74
+    port: 8080
+    username: root
+    password: root
+    turn_off_action: hibernate
+  
+
+map:
+discovery:
+sun:
+conversation:
+logger:
+  default: debug
+  logs:
+    pymediaroom: debug
+    custom_components.media_player.mediaroom: debug
+recorder:
+history:
+#logbook:
+
+
+
+  
+http:
+  base_url: !secret meu_dns
+  api_password: !secret api_password_http
+  ssl_certificate: /ssl/fullchain.pem
+  ssl_key: /ssl/privkey.pem
+  ip_ban_enabled: True
+  login_attempts_threshold: 3
+  
+panel_iframe:
+  ide:
+    title: IDE
+    icon: mdi:code-braces
+    url: https://r16.duckdns.org:8321
+  
+  
+

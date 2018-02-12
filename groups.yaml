@@ -1,0 +1,199 @@
+################################################
+#             VISTA DEFAULT                    #
+################################################
+default_view:
+  view: yes
+  icon: mdi:home
+  entities:
+    - group.temponarua
+    - group.tempoemcasa
+    - group.sensoresdecasa
+    - group.transito
+    - group.plantas
+    - group.cameras
+    - group.automacoes
+    - group.familia
+    - group.radio
+    - group.boxs
+
+    
+    
+  
+  
+################################################
+#             VISTA CAMERAS                    #
+################################################
+
+cameras_transito:
+  view: yes
+  name: Cameras de Trânsito
+  icon: mdi:camcorder
+  entities:
+    - media_player.vodafone_stb
+    - camera.ponte_vasco_da_gama_sul
+    - camera.ponte_vasco_da_gama_norte
+    - camera.ponte_25_abril_sul
+    - camera.ponte_25_abril_norte
+
+
+
+      
+    
+   
+################################################
+#           VISTA DISPOSITIVOS NA REDE         #
+################################################    
+dispositivos_da_rede:
+  view: yes
+  name: Dispositivos na rede
+  icon: mdi:server-network
+  entities:
+    - group.dispositivos_na_rede
+
+
+
+
+
+
+dispositivos_na_rede:
+  name: Dispositivos na rede
+  icon: mdi:server-network
+  entities:
+    - binary_sensor.sonoff_candeiro_sofa
+    - binary_sensor.sonoff_plantas_varanda
+    - binary_sensor.sonoff_aromatizador
+    - binary_sensor.sonoffledsbancadacozinha
+    - binary_sensor.sonoff_Interruptor_Casa_de_Banho
+    - binary_sensor.sonoff_radio_Casa_de_Banho
+    - binary_sensor.device_tracker_broadlinkcozinha
+    - binary_sensor.sonoff_leds_bancada_cozinha
+
+   
+################################################
+#             VISTA VÁRIOS                     #
+################################################
+energiateste:
+  view: yes
+  icon: mdi:grid
+  entities:
+    - group.energia
+    - group.totalizadores
+    - group.consumos_mensais
+    - group.consumos_diarios
+   
+
+    
+ 
+    
+   
+   
+
+#______________________________________________#
+
+################################################
+#             GRUPO FAMÍLIA                    #
+################################################
+   
+familia:
+  name: Familia
+  entities:
+    - switch.tvcozinha
+    - switch.tvbia
+    - switch.boxbia
+    - switch.computador
+    - input_select.opcoespc
+    - input_boolean.porta_rua_automatica
+    - proximity.rodolfo_casa
+    - proximity.paula_casa
+    - sensor.rodolfogeocode
+    - sensor.paulageocode
+    - sensor.estadorodolfo
+    - sensor.rodolfo_bateria_tlm
+    - sensor.estadopaula
+    - sensor.paula_bateria_tlm
+    - camera.rodolfo_cam
+    - camera.paula_cam
+
+    
+ 
+   
+ 
+################################################
+#         GRUPO SENSORES DE CASA               #
+################################################  
+    
+sensoresdecasa:
+  name: Sensores de Casa
+  entities:
+    - input_boolean.porta_rua
+    - input_boolean.campainha_rua
+    - input_select.hass_theme
+    - light.gateway_light_34ce0091e2e0
+    - switch.candeiro_sofa
+    - switch.radio
+#    - sensor.tvsala
+    - sensor.tvcozinha
+    - switch.leds_bancada_cozinha
+    - switch.luz_casa_de_banho
+    - switch.aromatizador
+#    - sensor.gateway_xiaomi
+ 
+    
+    
+################################################
+#             GRUPO TEMPO NA RUA               #
+################################################
+
+    
+temponarua:
+  name: Ambiente Exterior
+  entities:
+    - sensor.estadodotempo
+    - sensor.dark_sky_temperature
+    - sensor.dark_sky_humidity
+    - camera.odivelas
+    
+################################################
+#            GRUPO AMBIENTE EM CASA            #
+################################################
+
+tempoemcasa:
+  name: Ambiente Interior
+  entities:
+    - sensor.temperatura_em_casa
+    - sensor.humidade_em_casa
+    
+################################################
+#             GRUPO TRÂNSITO                   #
+################################################
+
+transito:
+  name: Tempo/Distância
+  entities:
+    - sensor.rodolfo_trabalho
+
+          
+################################################
+#             GRUPO CAMERAS                    #
+################################################ 
+   
+cameras:
+  name: Cameras
+  entities:
+    - camera.porta_escada
+    
+################################################
+#             GRUPO AUTOMAÇOES                 #
+################################################
+    
+automacoes:
+  name: Automações
+  entities:
+    - input_boolean.modoferias
+    
+
+
+
+  
+ 
+    

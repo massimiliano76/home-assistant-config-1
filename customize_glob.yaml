@@ -1,0 +1,6 @@
+switch.candeiro_sofa:
+  custom_ui_state_card: custom-ui
+light.*:
+  custom_ui_state_card: custom-ui
+
+    

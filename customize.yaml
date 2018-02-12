@@ -1,0 +1,98 @@
+
+
+#DARK SKY
+sensor.dark_sky_temperature:
+  friendly_name: "Temperatura na Rua"
+  icon: mdi:thermometer
+sensor.dark_sky_summary:
+  friendly_name: "Ceu"
+  icon: mdi:information-outline
+sensor.dark_sky_humidity:
+  friendly_name: "Humididade na Rua"
+  icon: mdi:water
+sensor.dark_sky_precip:
+  friendly_name: "Precipitação"
+sensor.dark_sky_precip_probability:
+  friendly_name: "Probabilidade de Precipitação"
+sensor.dark_sky_daily_high_temperature:
+  friendly_name: "Temperatura Máxima"
+sensor.dark_sky_daily_low_temperature:
+  friendly_name: "Temperatura Mínima"
+sensor.estadodotempo:
+  friendly_name: "Ceu"
+  icon: mdi:cloud-outline
+  
+
+  
+####CAMPAINHA ESCADA########
+sensor.campainha_escada:
+  friendly_name: "Campainha"
+  icon: mdi:bell
+#####AMBIENTE EM CASA#######  
+sensor.temperatura_em_casa:
+  friendly_name: "Temperatura em Casa"
+  icon: mdi:thermometer
+sensor.humidade_em_casa:
+  friendly_name: "Humidade em Casa"
+  icon: mdi:water
+  
+######GOOGLE TRAVEL#####
+sensor.rodolfo_trabalho:
+  friendly_name: "Rodolfo até ao Trabalho"
+  icon: mdi:car
+  
+######FAMILIA#####  
+sensor.rodolfo:
+  icon: mdi:human-male
+sensor.paula:
+  icon: mdi:human-female
+  
+  
+#Gateway  
+light.gateway_light_34ce0091e2e0:
+  friendly_name: "Gateway Xiaomi"
+  custom_ui_state_card: state-card-custom-ui
+  show_last_changed: true 
+  confirm_controls_show_lock: false
+  icon: mdi:lightbulb-outline 
+  
+
+###################################################################################
+#                                                                                 #
+# Guardaos valores dos ,input_boolean, input_select, input_number, light e switch.#
+#                                                                                 #
+###################################################################################                                                                                 #
+automation.persistence_publish:
+  friendly_name: "Persistence Publish"
+automation.persistence_subscribe_binary:
+  friendly_name: "Persistence Subscribe (Binary)"
+automation.persistence_subscribe_select_option:
+  friendly_name: "Persistence Subscribe (Select Option)"
+automation.persistence_subscribe_select_value:
+  friendly_name: "Persistence from MQTT (Select Value)"
+switch.candeiro_sofa:
+  persistent: true
+switch.luz_casa_de_banho:
+  persistent: true
+switch.radio:
+  persistent: true
+switch.leds_bancada_cozinha:
+  persistent: true
+automation.ligar_radio_botao:
+  persistent: true  
+
+
+
+
+
+
+################
+# TAB ORDERING #
+################
+group.home:
+  order: 1
+
+  
+
+
+       

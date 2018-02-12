@@ -1,0 +1,7 @@
+hass_theme:
+  name: Temas
+  options:
+    - Dark
+    - lightblue
+  initial: Dark
+  icon: mdi:theme-light-dark
