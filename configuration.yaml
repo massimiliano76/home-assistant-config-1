@@ -119,7 +119,7 @@ panel_iframe:
   ide:
     title: IDE
     icon: mdi:code-braces
-    url: https://r16.duckdns.org:8321
+    url: !secret url_panel
   
   
 
