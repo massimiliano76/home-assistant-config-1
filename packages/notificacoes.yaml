@@ -1,0 +1,299 @@
+homeassistant:
+
+###############################################################################
+#                                                                             #
+#                           C U S T O M I Z E                                 #
+#                                                                             #
+###############################################################################   
+
+
+
+
+
+###############################################################################
+#                                                                             #
+#                           A U T O M A Ç Õ E S                               #
+#                                                                             #
+###############################################################################  
+
+automation:
+
+
+      
+#Notifica os utilizadores da casa quando a campainha da escada toca. 
+  - alias: Campainha da escada
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.Campainha
+      to: 'on'
+    action:
+    - service: mqtt.publish
+      data:
+        topic: home/433toMQTT
+        payload: 10340193off
+        retain: 'true'
+    - service: notify.geralzanzito
+      data:
+        message: "Campainha da porta de entrada tocou no dia {{states.sensor.date.state}} às {{states.sensor.time.state}}"
+        data:
+          photo:
+            url: http://192.168.1.76:8080/photo.jpg
+           
+
+#Informa os utilizadores da temperatura dentro de casa, e o estado do tempo na rua.
+  - alias: Estado do tempo
+    trigger:
+      at: '07:40:00'
+      platform: time
+    action:
+      - service: notify.pushnotification
+        data_template:
+          title: 'Meteorologia'
+          message: "Bom dia , estão {{ states.sensor.temperatura_em_casa.state }} graus em casa. Hoje o céu está {{ states.sensor.estadodotempo.state }} estão neste momento {{ states.sensor.dark_sky_temperature.state }} graus , e {{ states.sensor.dark_sky_humidity.state }}% de humidade. A temperatura máxima vai ser de {{ states.sensor.dark_sky_daily_high_temperature.state }} graus e {{ states.sensor.dark_sky_daily_low_temperature.state }} graus de mínima. Existe {{ states.sensor.dark_sky_precip_probability.state }}% de probabilidade de chover hoje.{% if states('sensor.dark_sky_precip_probability') | int > 50 %} Não te esqueças de levar o chapéu de chuva. Tem um bom dia chuvoso ;){% else %} Tem um bom dia.{% endif %}"
+          data:
+            icon: /local/meteo.png    
+      
+#Notifica os utilizadores da Casa se existe nova correspondência na caixa do correio.
+  - alias: Notificacao Novo Correio
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.correio
+      to: 'on'
+    action:
+    - service: mqtt.publish
+      data:
+        topic: home/433toMQTT
+        payload: 1035062off
+        retain: 'true'
+    - service: notify.pushnotification
+      data_template:
+        title: 'Novo Correio Recebido'
+        message: "Dia {{states.sensor.date.state}} às {{states.sensor.time.state}}"
+        data:
+          icon: /local/ctt.png
+          
+#Notifica os utilizadores quando a porta da rua tocou.
+  - alias: Notificacao utilizadores porta rua
+    initial_state: true
+    trigger:
+      platform: mqtt
+      topic: /campainha
+      payload: campainha
+    action:
+      - service: xiaomi_aqara.play_ringtone
+        data:
+          gw_mac: 34:CE:00:91:E2:E0
+          ringtone_id: 10
+          ringtone_vol: 30
+      - service: notify.pushnotification
+        data_template:
+          title: 'Alguem tocou na campainha da rua'
+          message: "Dia {{states.sensor.date.state}} às {{states.sensor.time.state}}"
+          data:
+            icon: /local/campainha.png
+          
+
+                    
+
+#Informa os utilizadores se a porta de casa foi aberta. 
+  - alias: Casa de porta aberta
+    initial_state: true
+    trigger:
+    - entity_id: binary_sensor.porta_da_escada
+      platform: state
+      to: 'on'
+    action:
+      - service: mqtt.publish
+        data:
+          payload: 11768071off
+          retain: 'true'
+          topic: home/433toMQTT
+      - service: notify.pushnotification
+        data_template:
+          title: 'Porta de Casa Aberta'
+          message: "Dia {{states.sensor.date.state}} às {{states.sensor.time.state}}"
+          data:
+            icon: /local/porta.png
+  
+
+          
+#Informa os utilizador que houve uma tentativa de ataque ao home assistant.          
+  - alias: "Tentativa de Ataque Home Assistant"
+    trigger:
+      - platform: state
+        entity_id: persistent_notification.httplogin
+    condition:
+      - condition: template
+        value_template: "{{ trigger.to_state.state != 'None' }}"
+    action:
+      - service: notify.pushnotification_meu_telemovel
+        data_template:
+          title: "Tentativa de Ataque Home Assistant"
+          message: "{{ states.persistent_notification.httplogin.attributes.message }}"
+          data:
+            url: https://whatismyipaddress.com/ip/{{ states.persistent_notification.httplogin.attributes.message.split("from ") [1]}}
+            
+#Informa o utizador que o IP do operador alterou.
+
+  - alias: "Notificacao de alteração de ip"
+    trigger:
+      platform: state
+      entity_id: 'sensor.ipchange'
+      to: 'True'
+    condition:
+      condition: template
+      value_template: "{{ states('sensor.myipopendnscom') != 'unknown' }}"
+    action:
+      service: notify.pushnotification_meu_telemovel
+      data_template:
+        title: "O ip da Vodafone foi alterado"
+        message: "O ip da Vodafone agora é {{ states('sensor.myipopendnscom') }}"
+           
+
+                   
+ 
+
+
+  - alias: teste pushnotification1
+    trigger:
+      platform: event
+      event_type: html5_notification.clicked
+      event_data:
+        action: teste1
+    action: 
+      service: switch.turn_on   
+      entity_id: switch.candeiro_sofa
+   
+  - alias: teste pushnotification2
+    trigger:
+      platform: event
+      event_type: html5_notification.clicked
+      event_data:
+        action: teste2
+    action: 
+      service: switch.turn_off 
+      entity_id: switch.candeiro_sofa 
+      
+      
+#Beatriz
+  - alias: Beatriz ir para a cama
+    trigger:
+      platform: time
+      at: '21:15:00'
+    action:
+      - service: tts.microsoft_say
+        entity_id: media_player.zonacentral
+        data_template:
+          message: "Olá Beatris, sou a luna, está na hora de ires lavar os dentes , fazer xixi e ires para a cama"
+      - delay: 00:04
+      - service: tts.microsoft_say
+        entity_id: media_player.zonacentral
+        data_template:
+          message: "Beatris, já foste lavar os dentes? Se não foste o que estás á espera?"
+
+      
+     
+    
+ 
+       
+       
+       
+
+#Informa o Dono da Casa se os artigos da Gearbest que definiu, se os mesmos automentaram de preço ou baixaram.
+#  - alias: "Gearbest"
+#    hide_entity: True
+#    trigger:
+#      platform: time
+#      minutes: '/60'
+#      seconds: 00
+#    condition:
+#      condition: or
+#      conditions:
+#        - condition: template
+#          value_template: '{{ states.sensor.gateway_xiaomi.state | float > 23.18 }}'
+#        - condition: template
+#          value_template: '{{ states.sensor.gateway_xiaomi.state | float < 23.18 }}'
+#    action:
+#     - service: notify.rodolfozanzito
+#        data:
+#          message: "O preço do artigo {{states.sensor.gateway_xiaomi.name}} é de agora: {{ states.sensor.gateway_xiaomi.state }}"
+          
+          
+
+###############################################################################
+#                                                                             #
+#                           S C R I P T S                            #
+#                                                                             #
+###############################################################################    
+
+#Não existem scripts para as automações acima referidas.
+
+
+  
+###############################################################################
+#                                                                             #
+#                           B I N A R Y _ S E N S O R S                       #
+#                                                                             #
+###############################################################################  
+
+binary_sensor:
+
+  - platform: mqtt
+    state_topic: "home/433toMQTT"
+    name: "Campainha"
+    payload_on: "10340193"
+    payload_off: "10340193off"
+    
+  - platform: mqtt
+    state_topic: "home/433toMQTT"
+    name: "correio"
+    payload_on: "1035062"
+    payload_off: "1035062off"
+  
+  - platform: mqtt
+    state_topic: "home/433toMQTT"
+    name: "porta da escada"
+    payload_on: "11768071"
+    payload_off: "11768071off"
+  
+ 
+  
+###############################################################################
+#                                                                             #
+#                           N O T I F I E R S                                 #
+#                                                                             #
+###############################################################################  
+
+notify:
+ 
+  - name: telegram
+    platform: telegram
+    chat_id: !secret chatid01
+  
+  - name: telegramp
+    platform: telegram
+    chat_id: !secret chatid02
+
+  - name: rodolfozanzito
+    platform: zanzito
+    device-name: rodolfo
+    
+  - name: paulazanzito
+    platform: zanzito
+    device-name: paula
+    
+  - name: geralzanzito
+    platform: group
+    services: 
+      - service: rodolfozanzito
+      - service: paulazanzito
+      
+  
+  - name: pushnotification
+    platform: html5
+    gcm_api_key: 'AAAAp7bpVzE:APA91bGLffQnMbcBaJgBz5ZwBkx5ASStBQAjlN4vxjqfqL5nCOT0rcroPwJnxaPlQidxsVyaFUbHrIg3q88b_ZGvTYcMyRvk3tfbKzUDOQP3Zfx6H_jO3vgPQC5BsK-F2itFEO5I8P7e'
+    gcm_sender_id: '720328283953'
+    
+

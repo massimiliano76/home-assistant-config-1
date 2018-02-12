@@ -1,0 +1,17 @@
+homeassistant:
+
+switch:
+
+        
+  - platform: broadlink
+    host: 192.168.1.111
+    mac: '34:ea:34:58:8a:2a'
+    switches:
+      tvbia:
+        friendly_name: 'tvbia'
+        command_on: 'JgB+AFcdDx0ODg4PLCwODw4ODg8ODw8ODw4ODw4PDRAODw4OHBANHg4PDQAKwFgcDxwPDg8OKywPDg4PDg8ODw0QDg8NEA4ODw4PDg8OHQ8OHQ4PDwAKvVceDh0PDg4PKywODw4PDg8NEA4PDQ8PDg8ODg8PDg4PHQ4OHQ8ODwANBQAAAAAAAAAAAAA='
+        command_off: 'JgB+AFcdDx0ODg4PLCwODw4ODg8ODw8ODw4ODw4PDRAODw4OHBANHg4PDQAKwFgcDxwPDg8OKywPDg4PDg8ODw0QDg8NEA4ODw4PDg8OHQ8OHQ4PDwAKvVceDh0PDg4PKywODw4PDg8NEA4PDQ8PDg8ODg8PDg4PHQ4OHQ8ODwANBQAAAAAAAAAAAAA='
+      boxbia: 
+        friendly_name: 'boxbia'
+        command_on: 'JgBOAAoVFRUUFRQLChUVFQkLCwsUFRQKCxUJAAtoChUVFBUVFAsKFRUVCQsLCxMVFQoLFQkAC2gKFRQVFRUUCgsVFBULCgkMFBUVCgsUCgANBQAAAAAAAAAAAAA=' 
+                             

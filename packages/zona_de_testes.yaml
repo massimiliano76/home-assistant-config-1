@@ -1,0 +1,92 @@
+homeassistant:
+
+
+automation:   
+
+  
+
+  
+script:
+
+  
+  xiaomi_som:
+    sequence:
+      - service: xiaomi_aqara.play_ringtone
+        data:
+          gw_mac: 34:CE:00:91:E2:E0
+          ringtone_id: 20
+          ringtone_vol: 30
+          
+  xiaomi_luz:
+    sequence:
+      - service: homeassistant.turn_on
+        data:
+          entity_id: light.gateway_light_34ce0091e2e0
+          color_name: limegreen
+          brightness: 81
+          
+  xiaomi_luz1:
+    sequence:
+      - service: homeassistant.turn_on
+        data:
+          entity_id: light.gateway_light_34ce0091e2e0
+          rgb_color: [255, 0, 0]     ##cor vermelha
+          brightness: 81
+          
+  zanzito:
+    sequence:
+      - service: mqtt.publish
+        data_template:
+          topic: zanzito/googlehome/say
+          payload: "O preço do artigo {{states.sensor.gateway_xiaomi.name}} é de agora: {{ states.sensor.gateway_xiaomi.state }}"
+  
+  push:
+    sequence:       
+      service: notify.pushnotification_unnamed_device_9
+      data:
+        title: 'GATE'
+        message: 'Closed'
+        data:
+          tag: alert
+          image: http://weknowyourdreams.com/images/cobra/cobra-13.jpg
+          
+          
+  push2:
+    sequence: 
+      - service: notify.pushnotification
+        data_template:
+          title: 'Novo Correio Recebido'
+          message: "Dia {{states.sensor.date.state}} às {{states.sensor.time.state}}"
+          target: ["MEUPC", "MEU_TELEMOVEL"]
+               
+          #data:
+          #  actions:
+          #    - action: "teste1"
+          #      title: "Ligar Cerebro"
+          #    - action: "teste2"
+          #      title: "Desligar Cerebro"
+          #  icon: /local/ctt.png
+          
+  zanzitoteste:   
+    sequence:  
+      - service: mqtt.publish
+        data:
+         topic: zanzito/rodolfo/set_prefs
+         payload_template: '{"location_high_precision":true}}'
+          
+          
+          
+          
+          
+          
+  google:
+    sequence:
+      - service: tts.microsoft_say
+        entity_id: media_player.zonacentral
+        data_template:
+          message: "Bom dia , estão {{ states.sensor.temperatura_em_casa.state | int }} graus em casa. Hoje o céu está {{ states.sensor.estadodotempo.state }} estão neste momento {{ states.sensor.dark_sky_temperature.state  | int }} graus , e {{ states.sensor.dark_sky_humidity.state | int }}% de humidade. A temperatura máxima vai ser de {{ states.sensor.dark_sky_daily_high_temperature.state | int}} graus e {{ states.sensor.dark_sky_daily_low_temperature.state | int}} graus de mínima. Existe {{ states.sensor.dark_sky_precip_probability.state | int}}% de probabilidade de chover hoje.{% if states('sensor.dark_sky_precip_probability') | int > 50 %} Não te esqueças de levar o chapéu de chuva. Tem um bom dia chuvoso ;){% else %} Tem um bom dia.{% endif %}"
+
+  
+          
+          
+  

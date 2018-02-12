@@ -1,0 +1,274 @@
+homeassistant:
+
+###############################################################################
+#                                                                             #
+#                           C U S T O M I Z E                                 #
+#                                                                             #
+###############################################################################   
+        
+  customize:
+    switch.aromatizador:
+      icon: mdi:flask-outline
+ 
+   
+      
+      
+     
+
+###############################################################################
+#                                                                             #
+#                           A U T O M A Ç Õ E S                               #
+#                                                                             #
+###############################################################################   
+automation:
+
+#Informa o estado do estado do tempo de manhã mudando a cor do gateway.
+  - alias: Informa tempo cores
+    trigger:
+      - platform: time
+        at: '07:45'
+    action:
+      - service: light.turn_on
+        data_template:
+          entity_id: light.gateway_light_34ce0091e2e0
+          brightness: 20
+          color_name: >
+            {% if states('sensor.dark_sky_precip_probability') | int >= 0 %}
+              blue
+            {% elif states('sensor.dark_sky_precip_probability') | int >= 20 %}
+              yellow
+            {% elif states('sensor.dark_sky_precip_probability') | int >= 50 %}
+              red
+            {% endif %}
+            
+#Desliga a informação visual do estado do tempo, e o gateway passa a cor branca.
+  - alias: Desliga informaçaõ tempo
+    trigger:
+      - platform: time
+        at: '09:10'
+    action:
+      - service: light.turn_on
+        data_template:
+          entity_id: light.gateway_light_34ce0091e2e0
+          brightness: 20
+          color_name: white
+
+          
+#Informa o estado do Transito para Alverca mudando a cor do gateway
+  - alias: Informa transito
+    trigger:
+      - platform: time
+        at: '21:20'
+    action:
+      - service: light.turn_on
+        data_template:
+          entity_id: light.gateway_light_34ce0091e2e0
+          brightness: 20
+          color_name: >
+            {% if states('sensor.sensor.rodolfo_trabalho') | int >= 0 %}
+              green
+            {% elif states('sensor.rodolfo_trabalho') | int >= 24 %}
+              yellow
+            {% elif states('sensor.rodolfo_trabalho') | int >= 30 %}
+              red
+            {% endif %}     
+ 
+#Passa para modo de luz de presença.
+  - alias: Modo de luz de presença
+    trigger:
+      - platform: time
+        at: '22:00'
+    action:
+      - service: light.turn_on
+        data_template:
+          entity_id: light.gateway_light_34ce0091e2e0
+          brightness: 20
+          color_name: blue      
+          
+          
+#Abre a porta da rua.
+  - alias: Abertura da porta da rua
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: input_boolean.porta_rua
+      to: 'on'
+    action:
+    - service: mqtt.publish
+      data:
+        topic: /interruptor/set
+        payload: 1
+    - delay: 00:00:01
+    - service: mqtt.publish
+      data:
+        topic: /interruptor/set
+        payload: 0
+        retain: 'true'
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.porta_rua
+        
+        
+        
+#Activa campainha de casa.
+  - alias: Activa campainha de casa
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: input_boolean.campainha_rua
+      to: 'on'
+    action:
+    - service: mqtt.publish
+      data:
+        topic: /cortacorrente/set
+        payload: 1
+        retain: 'true'
+   
+   
+#Desactiva campainha de casa.
+  - alias: Desactiva campainha de casa
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: input_boolean.campainha_rua
+      to: 'off'
+    action:
+    - service: mqtt.publish
+      data:
+        topic: /cortacorrente/set
+        payload: 0
+        retain: 'true'
+        
+#Liga o carregador do telemovel do kodi quando este esta abaixo dos 15% de bateria.
+  - alias: Carregador Telemovel Kodi
+    initial_state: true 
+    trigger:
+      platform: numeric_state
+      entity_id: sensor.google_home
+      below: 15
+    action:
+      service: switch.turn_on
+      data:
+        entity_id: switch.aromatizador
+    
+#Desliga o carregador do telemovel do kodi quando este esta acima dos dos 99% de bateria.
+  - alias: Carregador Telemovel Kodi
+    initial_state: true 
+    trigger:
+      platform: numeric_state
+      entity_id: sensor.google_home
+      above: 90
+    action:
+      service: switch.turn_off
+      data:
+        entity_id: switch.aromatizador
+    
+#Abre a porta da rua automaticamente quando chego á minha rua e quando estou próximo de casa.
+  - alias: Abrir porta da rua automaticamente
+    initial_state: true 
+    trigger:
+      platform: numeric_state
+      entity_id: proximity.rodolfo_casa
+      below: 100
+    condition:
+      condition: state
+      entity_id: input_boolean.porta_rua_automatica
+      state: 'on'
+    action:
+      - service: mqtt.publish
+        data:
+          topic: /interruptor/set
+          payload: 1
+      - delay: 00:00:01
+      - service: mqtt.publish
+        data:
+          topic: /interruptor/set
+          payload: 0
+          retain: 'true'
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.porta_rua  
+
+      
+  
+###############################################################################
+#                                                                             #
+#                           S C R I P T S                                     #
+#                                                                             #
+###############################################################################   
+
+#Não existem scripts para as automações acima referidas.
+
+###############################################################################
+#                                                                             #
+#                           S E N S O R S                                     #
+#                                                                             #
+###############################################################################  
+
+
+  
+  
+###############################################################################
+#                                                                             #
+#                           S W I T C H E S                                   #
+#                                                                             #
+###############################################################################  
+
+switch:
+  
+#Switch Aromatizador
+  - platform: mqtt
+    name: "Aromatizador"
+    state_topic: "stat/Sonoffaromatizador/POWER"
+    command_topic: "cmnd/Sonoffaromatizador/power"
+    payload_on: "ON"
+    payload_off: "OFF"
+    qos: 1
+    retain: true
+    
+###############################################################################
+#                                                                             #
+#                         BINARY SENSORS                                      #
+#                                                                             #
+###############################################################################      
+    
+binary_sensor:
+  - platform: mqtt
+    name: "Sonoff Aromatizador"
+    state_topic: "tele/Sonoffaromatizador/LWT"
+    value_template: "{{ value }}"
+    payload_on: "Online"
+    payload_off: "Offline"
+    
+###############################################################################
+#                                                                             #
+#                         INPUT   BOOLEAN                                     #
+#                                                                             #
+###############################################################################      
+        
+    
+
+input_boolean:
+  porta_rua:
+    name: Abrir Porta da Rua
+    icon: mdi:door-open
+    initial: off
+    
+  campainha_rua:
+    name: Campainha da Rua
+    icon: mdi:bell-ring
+    initial: on
+    
+  porta_rua_automatica:
+    name: Abertura de porta automática
+    icon: mdi:door-open
+    initial: off
+    
+
+    
+    
+    
+
+
+  
+  
+
+  

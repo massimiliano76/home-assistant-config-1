@@ -1,0 +1,198 @@
+homeassistant:
+
+###############################################################################
+#                                                                             #
+#                           C U S T O M I Z E                                 #
+#                                                                             #
+###############################################################################
+
+  customize:
+
+    sensor.tvcozinha:
+      friendly_name: "Tv da Cozinha"
+      icon: mdi:desktop-mac
+    switch.leds_bancada_cozinha:
+      friendly_name: "Leds Bancada Cozinha"
+      icon: mdi:lightbulb-outline 
+    sensor.broadlinkcozinha:
+      icon: mdi:checkbox-marked-circle
+      friendly_name: "Broadlink da Cozinha"
+
+###############################################################################
+#                                                                             #
+#                           A U T O M A Ç Õ E S                               #
+#                                                                             #
+###############################################################################   
+automation:
+#Liga a fita de Leds da Cozinha entre as 18:00 e as 07:00 quando é detectado movimento. Automação Nº 1
+
+  - alias: Liga Leds da Cozinha
+    trigger:
+      platform: mqtt
+      topic: home/433toMQTT
+      payload: '11991929'
+    condition:
+      condition: time
+      after: '18:00'
+      before: '07:00'
+    action:
+      service: script.ligarledsbancada
+ 
+        
+        
+
+      
+#Liga a Tv da Cozinha às 07:46 e posteriormente muda o canal para a RTP1 para ver as noticias da manhã. Automação Nº 2
+  - alias: Liga TV da Cozinha Switch_8
+    trigger:
+      platform: time
+      at: '07:46:10'
+    condition:
+    - condition: state
+      entity_id: input_boolean.modoferias
+      state: 'off'
+    - condition: time
+      weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+    action:
+      service: script.ligartv
+      
+#Desliga a tv da Cozinha às 08:55. Automação Nº 3
+  - alias: Desliga TV da Cozinha Switch_8
+    trigger:
+      platform: time
+      at: '08:55:00'
+    condition:
+    - condition: state
+      entity_id: switch.ligaredesligar
+      state: 'on'
+    action:
+      service: switch.turn_off
+      data:
+        entity_id: switch.ligaredesligar
+  
+###############################################################################
+#                                                                             #
+#                           S C R I P T S                                     #
+#                                                                             #
+###############################################################################  
+
+script:
+
+#Script referente à automação Nº 2
+  ligartv:
+    sequence:
+      - service: switch.turn_on
+        data:
+          entity_id: switch.ligaredesligar
+      - delay:
+          seconds: 5
+      - service: switch.turn_on
+        data:
+          entity_id: switch.rtp1
+               
+#Script referente à automação Nº 3
+  ligarledsbancada:
+    sequence:
+      - service: switch.turn_on
+        data:
+          entity_id: switch.leds_bancada_cozinha
+      - delay:
+          minutes: 10
+      - service: switch.turn_off
+        data:
+          entity_id: switch.leds_bancada_cozinha
+   
+     
+        
+###############################################################################
+#                                                                             #
+#                           S E N S O R S                                     #
+#                                                                             #
+###############################################################################   
+
+sensor:
+
+ 
+
+  - platform: template
+    sensors:
+      tvcozinha:
+        friendly_name: "Tv da Cozinha"
+        value_template: > 
+         {%- if is_state('switch.tvcozinha', 'off') -%}
+            Desligada
+         {%- else -%}
+            Ligada
+         {%- endif -%}
+      
+        
+###############################################################################
+#                                                                             #
+#                           B I N A R Y   S E N S O R S                       #
+#                                                                             #
+###############################################################################  
+        
+binary_sensor:
+        
+  - platform: mqtt
+    state_topic: "home/433toMQTT"
+    name: "Leds da bancada"
+    payload_on: "11991929"
+    payload_off: "11991929off"
+    
+  - platform: mqtt
+    name: "Sonoff Leds Bancada Cozinha"
+    state_topic: "tele/sonoff/LWT"
+    value_template: "{{ value }}"
+    payload_on: "Online"
+    payload_off: "Offline"
+    
+  - platform: device_tracker_sensor
+    entities:
+      - device_tracker.broadlinkcozinha
+
+
+
+###############################################################################
+#                                                                             #
+#                           S W I T C H E S                                   #
+#                                                                             #
+############################################################################### 
+  
+  
+switch:
+
+#Switch Nº 8
+  - platform: broadlink
+    host: 192.168.1.68
+    mac: 'b4:43:0d:f9:1d:03'
+    switches:
+      tvcozinha:
+        friendly_name: 'tvcozinha'
+        command_on: 'JgBYAAABJZQRExESEhISEhISEhISNhISEhISEhISEhIRExETETcSEhISEjYSEhI3EhIRExESEhISNxISETcSEhI3ETcSNxI2EgAGDgABJkoSAAxCAAElShIADQU='
+        command_off: 'JgBQAAABKpYSFBEUERQRFBEUERQSOBIUERQRFBEUERQRFBITEjgSFBEUETkRFBI4EhQRFBEUERQRORITEjgSFBE5ETkSOBI5EQAFtgABKksRAA0FAAAAAAAAAAA='
+      rtp1:
+        friendly_name: 'rtp1'
+        command_on: 'JgBYAAABJpMSEhESEhISEhISEhISNhMREhISEhISEhISEhESEjcSEhI3ERISEhISEhISEhISEhIREhI3EjcRNxI3EjYSNxI3EQAGDgABJ0kSAAxCAAEmSRMADQU=' 
+
+
+       
+        
+        
+       
+              
+      
+#Switch Nº 3  
+  - platform: mqtt
+    name: "Leds Bancada Cozinha"
+    state_topic: "stat/sonoff108/POWER"
+    command_topic: "cmnd/sonoff108/power"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: true

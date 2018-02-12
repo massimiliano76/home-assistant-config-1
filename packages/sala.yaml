@@ -1,0 +1,123 @@
+homeassistant:
+
+###############################################################################
+#                                                                             #
+#                           C U S T O M I Z E                                 #
+#                                                                             #
+###############################################################################   
+        
+  customize:
+ 
+    switch.candeiro_sofa:
+      custom_ui_state_card: state-card-custom-ui
+      show_last_changed: true 
+      confirm_controls_show_lock: false
+      icon: mdi:lightbulb-outline 
+    sensor.tvsala:
+      icon: mdi:desktop-mac
+    
+      
+      
+     
+
+###############################################################################
+#                                                                             #
+#                           A U T O M A Ç Õ E S                               #
+#                                                                             #
+###############################################################################   
+automation:
+#Liga o Candeiro ao lado do sofá às 17:30.
+  - alias: Liga Candeiro
+    trigger:
+      platform: time
+      at: '17:30:00'
+    action:
+      service: switch.turn_on
+      data:
+        entity_id: switch.candeiro_sofa
+
+#Desliga o Candeiro ao lado do sofá às 04:30. 
+  - alias: Desliga Candeiro
+    trigger:
+      platform: time
+      at: '04:30'
+    action:
+      service: switch.turn_off
+      data:
+        entity_id: switch.candeiro_sofa
+        
+
+  
+###############################################################################
+#                                                                             #
+#                           S C R I P T S                                     #
+#                                                                             #
+###############################################################################   
+
+#Não existem scripts para as automações acima referidas.
+
+###############################################################################
+#                                                                             #
+#                           S E N S O R S                                     #
+#                                                                             #
+###############################################################################  
+
+sensor:
+
+  - platform: template
+    sensors:
+      tvsala:
+        friendly_name: 'Tv da Sala'
+        value_template: > 
+         {%- if is_state('media_player.panasonic_viera_tv', 'off') -%}
+            Desligada
+         {%- else -%}
+            Ligada
+         {%- endif -%}
+
+
+  
+  
+###############################################################################
+#                                                                             #
+#                           S W I T C H E S                                   #
+#                                                                             #
+###############################################################################  
+
+switch:
+  
+#Switch Candeiro Sofá   
+  - platform: mqtt
+    name: "Candeiro Sofá"
+    state_topic: "stat/sonoff/POWER"
+    command_topic: "cmnd/sonoff/power"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: true
+    
+#################################################################################
+#                                                                               #
+#                           BINARY   SENSORS                                    #
+#                                                                               #
+#################################################################################    
+binary_sensor:
+
+  - platform: mqtt
+    name: "Sonoff Candeiro Sofa"
+    state_topic: "tele/sonoff/LWT"
+    value_template: "{{ value }}"
+    payload_on: "Online"
+    payload_off: "Offline"
+   
+   
+  - platform: mqtt
+    state_topic: "room/motion"
+    name: "sensor de teste"
+    qos: 0
+    payload_on: "YES"
+    payload_off: "NO"
+    device_class: motion
+ 
+
+  
