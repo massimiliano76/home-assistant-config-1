@@ -1,5 +1,16 @@
 homeassistant:
 
+###############################################################################
+#                                                                             #
+#                           C U S T O M I Z E                                 #
+#                                                                             #
+###############################################################################   
+        
+#  customize:
+
+       
+
+
 switch:
 
         
@@ -15,6 +26,7 @@ switch:
         friendly_name: 'boxbia'
         command_on: 'JgBOAAoVFRUUFRQLChUVFQkLCwsUFRQKCxUJAAtoChUVFBUVFAsKFRUVCQsLCxMVFQoLFQkAC2gKFRQVFRUUCgsVFBULCgkMFBUVCgsUCgANBQAAAAAAAAAAAAA=' 
       desligaacbia:
+        friendly_name: 'Ar Condicionado Bia'
         command_off: 'JgC8AXE5DioPDg0PDQ8OKw0PDg4ODw0PDSsODw0rDisNDw0sDSsOKw0rDisNDwwQDSwMEA0QDBAMEAwQDRAMLAwtDSsOKwwQDBANEAwQDBANEAwQDBAMEA0QDBAMEAwQDRAMEAwQDRAMEAwQDBANEAwQDBAMEA4PDSsODw0PDQ8ODg4PDQ8NAAPNcjgOKg8ODg4ODg8qDg4PDQ8NDw4OKg8ODioPKg4ODykPKg8pDyoPKg4ODw0PKg4ODw0PDg4ODg4PDQ8ODg4PDQ8ODg4ODg8NDw4ODg8NDw0PDg4ODw0PDg4ODg4PDQ8qDw0PDQ8ODioPKg4ODyoODg8NDw0PDg4ODw0PDg4ODg4PDQ8ODg4PDQ8ODg4OKg8ODioPDQ8ODg4PDQ8ODg4ODg8NDw4ODg8NDw0PDg4ODw0PDg4ODg4PDQ8ODg4PDQ8ODg4ODg8NDw4ODg8NDw0PDg4ODw0PDg4ODg4PDQ8ODg4PDQ8NDw4ODg8NDw4ODg4ODw0PDg4ODg4PDQ8ODg4PKg4qDw0PDg4ODg4PDg4ODg4ODg8ODg4NDw4ODg8NDw0PDg8NDw0rDisNKw4rDg4OKw0rDgANBQAAAAAAAAAAAAAAAA=='
         
         
@@ -54,14 +66,14 @@ input_boolean:
   ac_bia_off:
     name: Desligar Ac Bia
     icon: mdi:door-open
-    initial: on
+    initial: off
     
 ###############################################################################
 #                                                                             #
 #                           A U T O M A Ç Õ E S                               #
 #                                                                             #
 ###############################################################################     
-    
+automation:    
 #Desliga o Ac do quarto da Bia.
   - alias: Desliga Ac quarto Bia
     initial_state: true
@@ -70,6 +82,24 @@ input_boolean:
       entity_id: input_boolean.ac_bia_off
       to: 'off'
     action:
-      service: switch.turn_on
+     - service: climate.set_operation_mode
+       data:
+         entity_id: climate.ar_condicionado_bia
+         operation_mode: "idle"
+         
+         
+         
+  - alias: teste1111
+    initial_state: true
+    trigger:
+      platform: template
+      value_template: >
+          {%- if is_state("climate.ar_condicionado_bia", "cool") -%}
+            true
+          {%- elif is_state('climate.ar_condicionado_bia', "heat") -%}
+             true
+          {% endif %}
+    action:
+      service: input_boolean.turn_on
       data:
-        entity_id: switch.desligaacbia
+        entity_id: input_boolean.ac_bia_off
