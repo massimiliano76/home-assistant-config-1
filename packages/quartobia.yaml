@@ -14,4 +14,62 @@ switch:
       boxbia: 
         friendly_name: 'boxbia'
         command_on: 'JgBOAAoVFRUUFRQLChUVFQkLCwsUFRQKCxUJAAtoChUVFBUVFAsKFRUVCQsLCxMVFQoLFQkAC2gKFRQVFRUUCgsVFBULCgkMFBUVCgsUCgANBQAAAAAAAAAAAAA=' 
+      desligaacbia:
+        command_off: 'JgC8AXE5DioPDg0PDQ8OKw0PDg4ODw0PDSsODw0rDisNDw0sDSsOKw0rDisNDwwQDSwMEA0QDBAMEAwQDRAMLAwtDSsOKwwQDBANEAwQDBANEAwQDBAMEA0QDBAMEAwQDRAMEAwQDRAMEAwQDBANEAwQDBAMEA4PDSsODw0PDQ8ODg4PDQ8NAAPNcjgOKg8ODg4ODg8qDg4PDQ8NDw4OKg8ODioPKg4ODykPKg8pDyoPKg4ODw0PKg4ODw0PDg4ODg4PDQ8ODg4PDQ8ODg4ODg8NDw4ODg8NDw0PDg4ODw0PDg4ODg4PDQ8qDw0PDQ8ODioPKg4ODyoODg8NDw0PDg4ODw0PDg4ODg4PDQ8ODg4PDQ8ODg4OKg8ODioPDQ8ODg4PDQ8ODg4ODg8NDw4ODg8NDw0PDg4ODw0PDg4ODg4PDQ8ODg4PDQ8ODg4ODg8NDw4ODg8NDw0PDg4ODw0PDg4ODg4PDQ8ODg4PDQ8NDw4ODg8NDw4ODg4ODw0PDg4ODg4PDQ8ODg4PKg4qDw0PDg4ODg4PDg4ODg4ODg8ODg4NDw4ODg8NDw0PDg8NDw0rDisNKw4rDg4OKw0rDgANBQAAAAAAAAAAAAAAAA=='
+        
+        
+        
+climate:
+  - platform: broadlink
+    name: Ar Condicionado Bia
+    host: 192.168.1.111
+    mac: '34:ea:34:58:8a:2a'
+    ircodes_ini: 'broadlink_climate_codes/daikin.ini'
+    min_temp: 10
+    max_temp: 30
+    target_temp: 20
+#    temp_sensor: sensor.living_room_temperature
+    default_operation: idle
+    default_fan_mode: mid
+    customize:
+      operations:
+        - idle
+        - cool
+        - heat
+      fan_modes:
+        - low
+        - mid
+        - high
+        - auto
                              
+###############################################################################
+#                                                                             #
+#                         INPUT   BOOLEAN                                     #
+#                                                                             #
+###############################################################################      
+        
+    
+
+input_boolean:
+  ac_bia_off:
+    name: Desligar Ac Bia
+    icon: mdi:door-open
+    initial: on
+    
+###############################################################################
+#                                                                             #
+#                           A U T O M A Ç Õ E S                               #
+#                                                                             #
+###############################################################################     
+    
+#Desliga o Ac do quarto da Bia.
+  - alias: Desliga Ac quarto Bia
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: input_boolean.ac_bia_off
+      to: 'off'
+    action:
+      service: switch.turn_on
+      data:
+        entity_id: switch.desligaacbia

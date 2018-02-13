@@ -126,6 +126,7 @@ sensoresdecasa:
   name: Sensores de Casa
   entities:
     - climate.ar_condicionado_bia
+    - switch.desligaacbia
     - input_boolean.porta_rua
     - input_boolean.campainha_rua
     - input_select.hass_theme
