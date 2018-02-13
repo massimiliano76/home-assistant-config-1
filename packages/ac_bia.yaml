@@ -1,0 +1,25 @@
+homeassistant:
+
+
+climate:
+  - platform: broadlink
+    name: Ar Condicionado Bia
+    host: 192.168.1.111
+    mac: '34:ea:34:58:8a:2a'
+    ircodes_ini: 'broadlink_climate_codes/daikin.ini'
+    min_temp: 10
+    max_temp: 30
+    target_temp: 20
+#    temp_sensor: sensor.living_room_temperature
+    default_operation: idle
+    default_fan_mode: mid
+    customize:
+      operations:
+        - idle
+        - cool
+        - heat
+      fan_modes:
+        - low
+        - mid
+        - high
+        - auto
