@@ -89,14 +89,14 @@ automation:
          
          
          
-  - alias: teste1111
+  - alias: Automação botao off
     initial_state: true
     trigger:
       platform: template
       value_template: >
-          {%- if is_state("climate.ar_condicionado_bia", "cool") -%}
-            true
-          {%- elif is_state('climate.ar_condicionado_bia', "heat") -%}
+          {%- if is_state("climate.ar_condicionado_bia", "idle") -%}
+            false
+           {% else %}
              true
           {% endif %}
     action:
