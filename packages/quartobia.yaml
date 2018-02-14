@@ -18,13 +18,14 @@ switch:
     host: 192.168.1.111
     mac: '34:ea:34:58:8a:2a'
     switches:
-      tvbia:
-        friendly_name: 'tvbia'
-        command_on: 'JgB+AFcdDx0ODg4PLCwODw4ODg8ODw8ODw4ODw4PDRAODw4OHBANHg4PDQAKwFgcDxwPDg8OKywPDg4PDg8ODw0QDg8NEA4ODw4PDg8OHQ8OHQ4PDwAKvVceDh0PDg4PKywODw4PDg8NEA4PDQ8PDg8ODg8PDg4PHQ4OHQ8ODwANBQAAAAAAAAAAAAA='
-        command_off: 'JgB+AFcdDx0ODg4PLCwODw4ODg8ODw8ODw4ODw4PDRAODw4OHBANHg4PDQAKwFgcDxwPDg8OKywPDg4PDg8ODw0QDg8NEA4ODw4PDg8OHQ8OHQ4PDwAKvVceDh0PDg4PKywODw4PDg8NEA4PDQ8PDg8ODg8PDg4PHQ4OHQ8ODwANBQAAAAAAAAAAAAA='
+#      tvbia:
+#        friendly_name: 'tvbia'
+#        command_on: 'JgCEAFcdDxwPDg8ODx0dDg8ODw4PDg8ODw4PDg8ODg8ODx0dDg8ODg8ODw4PAAq9Vx4OHQ4PDg8OHh0ODg8PDg4PDg8ODw4PDg8ODg8OHR0PDg8ODw4ODw4ACr5XHg4dDg8ODw4eHQ4ODw8ODg8ODw4PDg8ODw4ODw4dHQ8ODw4PDg4PDgANBQAAAAA='
+#        command_off: 'JgCEAFceDh0ODw4PDh0eDg4PDg8ODw4PDg8ODg8ODw4PDg8ODw4dDg8dDg8OAAq9WB0OHQ8ODg8OHh0ODg8PDg4PDg8ODw4PDg8ODw4ODw4PDh0PDh0ODw4ACr5XHQ8cDw4PDg8dHQ4PDg8ODw4PDg8ODw4PDg4PDg8ODw4PHQ4PHA8ODwANBQAAAAA='
       boxbia: 
         friendly_name: 'boxbia'
         command_on: 'JgBOAAoVFRUUFRQLChUVFQkLCwsUFRQKCxUJAAtoChUVFBUVFAsKFRUVCQsLCxMVFQoLFQkAC2gKFRQVFRUUCgsVFBULCgkMFBUVCgsUCgANBQAAAAAAAAAAAAA=' 
+        command_off: 'JgBOAAoVFRUUFRQLChUVFQkLCwsUFRQKCxUJAAtoChUVFBUVFAsKFRUVCQsLCxMVFQoLFQkAC2gKFRQVFRUUCgsVFBULCgkMFBUVCgsUCgANBQAAAAAAAAAAAAA=' 
       desligaacbia:
         friendly_name: 'Ar Condicionado Bia'
         command_off: 'JgC8AXE5DioPDg0PDQ8OKw0PDg4ODw0PDSsODw0rDisNDw0sDSsOKw0rDisNDwwQDSwMEA0QDBAMEAwQDRAMLAwtDSsOKwwQDBANEAwQDBANEAwQDBAMEA0QDBAMEAwQDRAMEAwQDRAMEAwQDBANEAwQDBAMEA4PDSsODw0PDQ8ODg4PDQ8NAAPNcjgOKg8ODg4ODg8qDg4PDQ8NDw4OKg8ODioPKg4ODykPKg8pDyoPKg4ODw0PKg4ODw0PDg4ODg4PDQ8ODg4PDQ8ODg4ODg8NDw4ODg8NDw0PDg4ODw0PDg4ODg4PDQ8qDw0PDQ8ODioPKg4ODyoODg8NDw0PDg4ODw0PDg4ODg4PDQ8ODg4PDQ8ODg4OKg8ODioPDQ8ODg4PDQ8ODg4ODg8NDw4ODg8NDw0PDg4ODw0PDg4ODg4PDQ8ODg4PDQ8ODg4ODg8NDw4ODg8NDw0PDg4ODw0PDg4ODg4PDQ8ODg4PDQ8NDw4ODg8NDw4ODg4ODw0PDg4ODg4PDQ8ODg4PKg4qDw0PDg4ODg4PDg4ODg4ODg8ODg4NDw4ODg8NDw0PDg8NDw0rDisNKw4rDg4OKw0rDgANBQAAAAAAAAAAAAAAAA=='
@@ -65,7 +66,12 @@ climate:
 input_boolean:
   ac_bia_off:
     name: Desligar Ac Bia
-    icon: mdi:door-open
+    icon: mdi:air-conditioner
+    initial: off
+    
+  estado_tv_bia:
+    name: Tv Bia
+    icon: mdi:television-classic
     initial: off
     
 ###############################################################################
@@ -74,7 +80,7 @@ input_boolean:
 #                                                                             #
 ###############################################################################     
 automation:    
-#Desliga o Ac do quarto da Bia.
+#Quando carregado o botao do input_boolean o ac é desligado.
   - alias: Desliga Ac quarto Bia
     initial_state: true
     trigger:
@@ -88,7 +94,7 @@ automation:
          operation_mode: "idle"
          
          
-         
+#Automação para activar o botão do input_boolean assim que o ac é ligado.        
   - alias: Automação botao off
     initial_state: true
     trigger:
@@ -103,3 +109,66 @@ automation:
       service: input_boolean.turn_on
       data:
         entity_id: input_boolean.ac_bia_off
+        
+#Automação para ligar a tv quando o botão input_boolean está on.       
+  - alias: Ligar tv
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: input_boolean.estado_tv_bia
+      to: 'on'
+    action:
+      service: switch.broadlink_send_packet_192_168_1_111
+      data:
+        packet:
+        - 'JgCEAFcdDxwPDg8ODx0dDg8ODw4PDg8ODw4PDg8ODg8ODx0dDg8ODg8ODw4PAAq9Vx4OHQ4PDg8OHh0ODg8PDg4PDg8ODw4PDg8ODg8OHR0PDg8ODw4ODw4ACr5XHg4dDg8ODw4eHQ4ODw8ODg8ODw4PDg8ODw4ODw4dHQ8ODw4PDg4PDgANBQAAAAA='
+        
+#Automação para ligar a tv quando o botão input_boolean está off.       
+  - alias: Ligar tv
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: input_boolean.estado_tv_bia
+      to: 'off'
+    action:
+      service: switch.broadlink_send_packet_192_168_1_111
+      data:
+        packet:
+        - 'JgCEAFceDh0ODw4PDh0eDg4PDg8ODw4PDg8ODg8ODw4PDg8ODw4dDg8dDg8OAAq9WB0OHQ8ODg8OHh0ODg8PDg4PDg8ODw4PDg8ODw4ODw4PDh0PDh0ODw4ACr5XHQ8cDw4PDg8dHQ4PDg8ODw4PDg8ODw4PDg4PDg8ODw4PHQ4PHA8ODwANBQAAAAA='
+        
+###############################################################################
+#                                                                             #
+#                           B I N A R Y   S E N S O R S                       #
+#                                                                             #
+###############################################################################         
+        
+binary_sensor:
+
+  - platform: device_tracker_sensor
+    entities:
+      - device_tracker.broadlinkquartobia
+      
+      
+ 
+      
+      
+      
+group:
+
+  quartobia:
+    view: yes
+    name: Quarto da Bia
+    icon: mdi:face
+    entities:
+    - group.quarto_da_bia
+    
+    
+  quarto_da_bia:
+    name: Quarto da Bia
+    icon: mdi:face
+    entities:
+      - input_boolean.estado_tv_bia
+      - switch.boxbia 
+      - climate.ar_condicionado_bia
+      - input_boolean.ac_bia_off
+    

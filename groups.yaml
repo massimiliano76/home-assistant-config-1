@@ -67,6 +67,9 @@ dispositivos_na_rede:
     - binary_sensor.sonoff_radio_Casa_de_Banho
     - binary_sensor.device_tracker_broadlinkcozinha
     - binary_sensor.sonoff_leds_bancada_cozinha
+    - binary_sensor.device_tracker_broadlinkquartobia
+    - binary_sensor.device_tracker_homecinema
+    - binary_sensor.device_tracker_tvsala
 
    
 ################################################
@@ -81,9 +84,6 @@ energiateste:
     - group.consumos_mensais
     - group.consumos_diarios
    
-
-    
- 
     
    
    
@@ -98,8 +98,6 @@ familia:
   name: Familia
   entities:
     - switch.tvcozinha
-    - switch.tvbia
-    - switch.boxbia
     - switch.computador
     - input_select.opcoespc
     - input_boolean.porta_rua_automatica
@@ -125,8 +123,6 @@ familia:
 sensoresdecasa:
   name: Sensores de Casa
   entities:
-    - climate.ar_condicionado_bia
-    - input_boolean.ac_bia_off
     - input_boolean.porta_rua
     - input_boolean.campainha_rua
     - input_select.hass_theme

@@ -80,7 +80,13 @@ media_player:
   - platform: mediaroom
     host: 192.168.1.64
     name: "vodafone STB"
-    optimistic: True
+#    optimistic: True
+    
+    
+  - platform: mediaroom
+    host: 192.168.1.92
+    name: "Box Quarto Bia"
+#    optimistic: True
     
   - platform: kodi
     name: zonacentral
@@ -96,10 +102,10 @@ discovery:
 sun:
 conversation:
 logger:
-  default: debug
+  default: error
   logs:
-    pymediaroom: debug
     custom_components.media_player.mediaroom: debug
+    pymediaroom: debug
 recorder:
 history:
 #logbook:
@@ -118,7 +124,7 @@ http:
 panel_iframe:
   ide:
     title: IDE
-    icon: mdi:code-braces
+    icon: mdi:wrench
     url: !secret url_panel
   
   

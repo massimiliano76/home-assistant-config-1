@@ -47,7 +47,7 @@ automation:
         
         
 #Liga a luz da casa de banho das 07:30 às 08:00 quando for activo o movimento.
-  - alias: Liga luz wc1
+  - alias: Liga luz wc
 #    initial_state: true
     trigger:
       platform: mqtt
@@ -77,7 +77,7 @@ automation:
       service: script.luzcasadebanho10min          
         
 #Liga a luz da casa de banho das 17:15 às 07:30 em intervalos de 5 min sempre que existir movimento.        
-  - alias: Liga luz wc1
+  - alias: Liga luz wc2
 #    initial_state: true
     trigger:
       platform: mqtt

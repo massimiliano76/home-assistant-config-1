@@ -96,11 +96,12 @@ switch:
     payload_off: "OFF"
     retain: true
     
-#################################################################################
-#                                                                               #
-#                           BINARY   SENSORS                                    #
-#                                                                               #
-#################################################################################    
+###############################################################################
+#                                                                             #
+#                           B I N A R Y   S E N S O R S                       #
+#                                                                             #
+###############################################################################   
+ 
 binary_sensor:
 
   - platform: mqtt
@@ -118,6 +119,8 @@ binary_sensor:
     payload_on: "YES"
     payload_off: "NO"
     device_class: motion
- 
 
-  
+  - platform: device_tracker_sensor
+    entities:
+      - device_tracker.homecinema
+      - device_tracker.tvsala

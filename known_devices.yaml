@@ -1,13 +1,3 @@
-
-android138a9a0024076c02lan:
-  hide_if_away: false
-  icon:
-  mac: 00:A4:ED:0D:27:34
-  name: android-138a9a0024076c02.lan
-  picture:
-  track: true
-  vendor: unknown
-
 paula:
   hide_if_away: false
   icon:
@@ -26,68 +16,6 @@ rodolfo:
   track: true
   vendor:
 
-0123456789abcdef:
-  hide_if_away: false
-  icon:
-  mac:
-  name: 0123456789abcdef
-  picture:
-  track: true
-  vendor:
-
-username_teste1:
-  hide_if_away: false
-  icon:
-  mac:
-  name: username
-  picture:
-  track: true
-  vendor:
-
-desktoplcolt03:
-  hide_if_away: false
-  icon:
-  mac: BT_80:A5:89:59:27:84
-  name: DESKTOP-LCOLT03
-  picture:
-  track: true
-  vendor: AzureWave Technology Inc.
-
-x10_mini:
-  hide_if_away: false
-  icon:
-  mac: BT_58:17:0C:F4:59:5E
-  name: X10 mini
-  picture:
-  track: true
-  vendor: Sony Mobile Communications AB
-
-huawei_p8_lite:
-  hide_if_away: false
-  icon:
-  mac: BT_84:9F:B5:2F:A7:A1
-  name: HUAWEI P8 lite
-  picture:
-  track: true
-  vendor: HUAWEI TECHNOLOGIES CO.,LTD
-
-alcatel_1054:
-  hide_if_away: false
-  icon:
-  mac: BT_4C:4E:03:78:83:34
-  name: ALCATEL 1054
-  picture:
-  track: true
-  vendor: TCT mobile ltd
-
-androidd4d321e3bf2dd73blan:
-  hide_if_away: false
-  icon:
-  mac: 5C:F8:A1:D9:35:98
-  name: android-d4d321e3bf2dd73b.lan
-  picture:
-  track: true
-  vendor: Murata Manufacturing Co., Ltd.
 
 googlehome:
   hide_if_away: false
@@ -98,20 +26,75 @@ googlehome:
   track: true
   vendor:
 
-huawei_cunl21:
+
+broadlinkcozinha:
   hide_if_away: false
   icon:
-  mac: BT_3C:FA:43:4E:4F:21
-  name: HUAWEI CUN-L21
+  mac: b4:43:0d:f9:1d:03
+  name: Broadlink Cozinha
+  picture:
+  track: true  
+  vendor:
+   
+broadlinkquartobia:
+  hide_if_away: false
+  icon:
+  mac: 34:ea:34:58:8a:2a
+  name: Broadlink Quarto Bia
+  picture:
+  track: true  
+  vendor:
+
+homecinema:
+  hide_if_away: false
+  icon:
+  mac: 0c:84:dc:72:11:55
+  name: Home Cinema
+  picture:
+  track: true  
+  vendor:
+  
+tvsala:
+  hide_if_away: false
+  icon:
+  mac: e0:ce:c3:22:cb:ae
+  name: Tv Sala
+  picture:
+  track: true  
+  vendor:
+
+00a4ed0d2734:
+  hide_if_away: false
+  icon:
+  mac: 00:A4:ED:0D:27:34
+  name: 00a4ed0d2734
+  picture:
+  track: true
+  vendor: unknown
+
+5cf8a1d93598:
+  hide_if_away: false
+  icon:
+  mac: 5C:F8:A1:D9:35:98
+  name: 5cf8a1d93598
+  picture:
+  track: true
+  vendor: unknown
+
+bumbinha:
+  hide_if_away: false
+  icon:
+  mac: BT_DC:09:4C:78:EB:EA
+  name: bumbinha
   picture:
   track: true
   vendor: HUAWEI TECHNOLOGIES CO.,LTD
 
-q9:
+beatspillxl:
   hide_if_away: false
   icon:
-  mac: BT_15:0D:13:6A:15:A3
-  name: Q9
+  mac: BT_04:88:E2:14:27:AB
+  name: BeatsPillXL
   picture:
   track: true
-  vendor: unknown
+  vendor: Beats Electronics LLC
