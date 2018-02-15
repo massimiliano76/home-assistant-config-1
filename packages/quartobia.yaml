@@ -74,6 +74,11 @@ input_boolean:
     icon: mdi:television-classic
     initial: off
     
+  box_bia:
+    name: Box Bia
+    icon: mdi:television-classic
+    initial: off
+    
 ###############################################################################
 #                                                                             #
 #                           A U T O M A Ç Õ E S                               #
@@ -110,31 +115,51 @@ automation:
       data:
         entity_id: input_boolean.ac_bia_off
         
-#Automação para ligar a tv quando o botão input_boolean está on.       
-  - alias: Ligar tv
+
+#Automação para ligar a tv quando a box é ligada.      
+  - alias: Automação box on tv on
     initial_state: true
     trigger:
-      platform: state
-      entity_id: input_boolean.estado_tv_bia
-      to: 'on'
+      platform: template
+      value_template: >
+          {%- if is_state("media_player.box_quarto_bia", "playing") -%}
+            true
+          {% endif %}
     action:
-      service: switch.broadlink_send_packet_192_168_1_111
-      data:
-        packet:
-        - 'JgCEAFcdDxwPDg8ODx0dDg8ODw4PDg8ODw4PDg8ODg8ODx0dDg8ODg8ODw4PAAq9Vx4OHQ4PDg8OHh0ODg8PDg4PDg8ODw4PDg8ODg8OHR0PDg8ODw4ODw4ACr5XHg4dDg8ODw4eHQ4ODw8ODg8ODw4PDg8ODw4ODw4dHQ8ODw4PDg4PDgANBQAAAAA='
+      - delay:
+          seconds: 5
+      - service: switch.broadlink_send_packet_192_168_1_111
+        data:
+         packet:
+         - 'JgCEAFcdDxwPDg8ODx0dDg8ODw4PDg8ODw4PDg8ODg8ODx0dDg8ODg8ODw4PAAq9Vx4OHQ4PDg8OHh0ODg8PDg4PDg8ODw4PDg8ODg8OHR0PDg8ODw4ODw4ACr5XHg4dDg8ODw4eHQ4ODw8ODg8ODw4PDg8ODw4ODw4dHQ8ODw4PDg4PDgANBQAAAAA=' 
+      - service: input_boolean.turn_on
+        data:
+          entity_id: input_boolean.box_bia       
         
-#Automação para ligar a tv quando o botão input_boolean está off.       
-  - alias: Ligar tv
+
+#Automação para desligar a tv quando a box é desligada.      
+  - alias: Automação box off tv off
     initial_state: true
     trigger:
-      platform: state
-      entity_id: input_boolean.estado_tv_bia
-      to: 'off'
+      platform: template
+      value_template: >
+          {%- if is_state("media_player.box_quarto_bia", "standby") -%}
+            true
+          {% endif %}
     action:
-      service: switch.broadlink_send_packet_192_168_1_111
-      data:
-        packet:
-        - 'JgCEAFceDh0ODw4PDh0eDg4PDg8ODw4PDg8ODg8ODw4PDg8ODw4dDg8dDg8OAAq9WB0OHQ8ODg8OHh0ODg8PDg4PDg8ODw4PDg8ODw4ODw4PDh0PDh0ODw4ACr5XHQ8cDw4PDg8dHQ4PDg8ODw4PDg8ODw4PDg4PDg8ODw4PHQ4PHA8ODwANBQAAAAA='
+      - delay:
+          seconds: 5
+      - service: switch.broadlink_send_packet_192_168_1_111
+        data:
+          packet:
+          - 'JgCEAFceDh0ODw4PDh0eDg4PDg8ODw4PDg8ODg8ODw4PDg8ODw4dDg8dDg8OAAq9WB0OHQ8ODg8OHh0ODg8PDg4PDg8ODw4PDg8ODw4ODw4PDh0PDh0ODw4ACr5XHQ8cDw4PDg8dHQ4PDg8ODw4PDg8ODw4PDg4PDg8ODw4PHQ4PHA8ODwANBQAAAAA='
+      - service: input_boolean.turn_off
+        data:
+          entity_id: input_boolean.box_bia         
+
+
+
+
         
 ###############################################################################
 #                                                                             #
@@ -168,7 +193,7 @@ group:
     icon: mdi:face
     entities:
       - input_boolean.estado_tv_bia
-      - switch.boxbia 
+      - input_boolean.box_bia
       - climate.ar_condicionado_bia
       - input_boolean.ac_bia_off
     

@@ -98,3 +98,12 @@ beatspillxl:
   picture:
   track: true
   vendor: Beats Electronics LLC
+
+desktoplcolt03:
+  hide_if_away: false
+  icon:
+  mac: BT_80:A5:89:59:27:84
+  name: DESKTOP-LCOLT03
+  picture:
+  track: true
+  vendor: AzureWave Technology Inc.

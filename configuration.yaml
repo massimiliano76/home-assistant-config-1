@@ -102,10 +102,8 @@ discovery:
 sun:
 conversation:
 logger:
-  default: error
-  logs:
-    custom_components.media_player.mediaroom: debug
-    pymediaroom: debug
+  default: debug
+
 recorder:
 history:
 #logbook:
