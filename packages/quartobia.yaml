@@ -157,8 +157,31 @@ automation:
         data:
           entity_id: input_boolean.box_bia         
 
+          
 
+#Automação para ligar a box e tv quando o botao input_boolean é activo.     
+  - alias: Automação para ligar e tv botao activo
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: input_boolean.box_bia 
+      to: 'on'
+    action:
+      service: media_player.turn_on
+      data:
+        entity_id: media_player.box_quarto_bia      
 
+#Automação para desligar a box e tv quando o botao input_boolean é desactivo.     
+  - alias: Automação para ligar e tv botao desactivo
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: input_boolean.box_bia 
+      to: 'off'
+    action:
+      service: media_player.turn_off
+      data:
+        entity_id: media_player.box_quarto_bia  
 
         
 ###############################################################################
