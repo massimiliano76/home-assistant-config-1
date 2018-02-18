@@ -38,7 +38,7 @@ automation:
         message: "Campainha da porta de entrada tocou no dia {{states.sensor.date.state}} às {{states.sensor.time.state}}"
         data:
           photo:
-            url: http://192.168.1.76:8080/photo.jpg
+            url: http://192.168.1.89:8080/photo.jpg
            
 
 #Informa os utilizadores da temperatura dentro de casa, e o estado do tempo na rua.

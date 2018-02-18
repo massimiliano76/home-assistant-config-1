@@ -71,7 +71,7 @@ automation:
       to: 'not_home'
   condition:
     condition: template
-    value_template: "{{states.proximity.rodolfo_casa.state | int < '500' | int}}"
+    value_template: "{{states.sensor.rodolfogeocode.attributes.City == 'Olival Basto'}}"
   action:
     - service: input_select.select_option
       data:
@@ -225,7 +225,7 @@ automation:
       to: 'not_home'
   condition:
     condition: template
-    value_template: "{{states.proximity.paula_casa.state | int < '500' | int}}"
+    value_template: "{{states.sensor.paulageocode.attributes.City == 'Olival Basto'}}"
   action:
     - service: input_select.select_option
       data:
@@ -283,6 +283,9 @@ automation:
       entity_id: device_tracker.paula
       from: 'not_home'
       to: 'notrabalhop'
+  condition:
+    condition: template
+    value_template: "{{states.sensor.paulageocode.attributes.Street == 'Rua Castilho'}}"
   action:
     - service: input_select.select_option
       data:
@@ -301,6 +304,9 @@ automation:
       entity_id: device_tracker.paula
       from: 'notrabalhop'
       to: 'not_home'
+  condition:
+    condition: template
+    value_template: "{{states.sensor.paulageocode.attributes.Street != 'Rua Castilho'}}"
   action:
     - service: input_select.select_option
       data:
