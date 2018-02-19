@@ -91,7 +91,7 @@ automation:
     trigger:
       platform: state
       entity_id: input_boolean.ac_bia_off
-      to: 'off'
+      to: "off"
     action:
      - service: climate.set_operation_mode
        data:
@@ -132,9 +132,10 @@ automation:
         data:
          packet:
          - 'JgCEAFcdDxwPDg8ODx0dDg8ODw4PDg8ODw4PDg8ODg8ODx0dDg8ODg8ODw4PAAq9Vx4OHQ4PDg8OHh0ODg8PDg4PDg8ODw4PDg8ODg8OHR0PDg8ODw4ODw4ACr5XHg4dDg8ODw4eHQ4ODw8ODg8ODw4PDg8ODw4ODw4dHQ8ODw4PDg4PDgANBQAAAAA=' 
-      - service: input_boolean.turn_on
+      - service: homeassistant.turn_on
         data:
-          entity_id: input_boolean.box_bia       
+          entity_id: input_boolean.box_bia 
+    
         
 
 #Automação para desligar a tv quando a box é desligada.      
@@ -153,9 +154,9 @@ automation:
         data:
           packet:
           - 'JgCEAFceDh0ODw4PDh0eDg4PDg8ODw4PDg8ODg8ODw4PDg8ODw4dDg8dDg8OAAq9WB0OHQ8ODg8OHh0ODg8PDg4PDg8ODw4PDg8ODw4ODw4PDh0PDh0ODw4ACr5XHQ8cDw4PDg8dHQ4PDg8ODw4PDg8ODw4PDg4PDg8ODw4PHQ4PHA8ODwANBQAAAAA='
-      - service: input_boolean.turn_off
+      - service: homeassistant.turn_off
         data:
-          entity_id: input_boolean.box_bia         
+          entity_id: input_boolean.box_bia   
 
           
 
@@ -164,25 +165,32 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: input_boolean.box_bia 
-      to: 'on'
-    action:
-      service: media_player.turn_on
-      data:
-        entity_id: media_player.box_quarto_bia      
+      entity_id: input_boolean.box_bia
+      from: "off"
+      to: "on"
+    condition:
+      condition: template
+      value_template: "{{states.media_player.box_quarto_bia.state == 'standby'}}"
+    action:      
+      - service: homeassistant.turn_on
+        data:
+          entity_id: media_player.box_quarto_bia  
 
-#Automação para desligar a box e tv quando o botao input_boolean é desactivo.     
+##Automação para desligar a box e tv quando o botao input_boolean é desactivo.     
   - alias: Automação para ligar e tv botao desactivo
     initial_state: true
     trigger:
       platform: state
-      entity_id: input_boolean.box_bia 
-      to: 'off'
-    action:
-      service: media_player.turn_off
-      data:
-        entity_id: media_player.box_quarto_bia  
-
+      entity_id: input_boolean.box_bia
+      from: "on"
+      to: "off"
+    condition:
+      condition: template
+      value_template: "{{states.media_player.box_quarto_bia.state == 'playing'}}"
+    action:      
+      - service: homeassistant.turn_off
+        data:
+          entity_id: media_player.box_quarto_bia  
         
 ###############################################################################
 #                                                                             #
