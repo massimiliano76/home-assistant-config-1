@@ -122,41 +122,208 @@ automation:
       - service: media_player.play_media
         data:
           entity_id: media_player.zonacentral
-          media_content_id:  http://mcrscast.mcr.iol.pt/comercial.mp3
+          media_content_id: http://mcrscast.mcr.iol.pt/comercial.mp3
+          media_content_type: 'audio/mp3'  
+
+  - alias: Nova Era
+    trigger:
+      platform: state
+      entity_id: input_select.estacoes_de_radio
+      to: "Nova Era"
+    action:
+      - service: media_player.media_stop
+        data:
+          entity_id: media_player.zonacentral
+      - service: media_player.play_media
+        data:
+          entity_id: media_player.zonacentral
+          media_content_id: http://centova.radios.pt:9478/stream/1/ 
+          media_content_type: 'audio/mp3'  
+           
+  - alias: Rfm
+    trigger:
+      platform: state
+      entity_id: input_select.estacoes_de_radio
+      to: "Rfm"
+    action:
+      - service: media_player.media_stop
+        data:
+          entity_id: media_player.zonacentral
+      - service: media_player.play_media
+        data:
+          entity_id: media_player.zonacentral
+          media_content_id: http://19553.live.streamtheworld.com:3690/RFM_SC 
+          media_content_type: 'audio/mp3'          
+             
+  - alias: Renascença
+    trigger:
+      platform: state
+      entity_id: input_select.estacoes_de_radio
+      to: "Renascença"
+    action:
+      - service: media_player.media_stop
+        data:
+          entity_id: media_player.zonacentral
+      - service: media_player.play_media
+        data:
+          entity_id: media_player.zonacentral
+          media_content_id: http://19593.live.streamtheworld.com:80/RADIO_RENASCENCA_SC 
+          media_content_type: 'audio/mp3'              
+
+
+  - alias: Oceano Pacífico
+    trigger:
+      platform: state
+      entity_id: input_select.estacoes_de_radio
+      to: "Oceano Pacífico"
+    action:
+      - service: media_player.media_stop
+        data:
+          entity_id: media_player.zonacentral
+      - service: media_player.play_media
+        data:
+          entity_id: media_player.zonacentral
+          media_content_id: http://19553.live.streamtheworld.com:80/OCEANPACIFIC_SC  
+          media_content_type: 'audio/mp3'  
+
+  - alias: TSF
+    trigger:
+      platform: state
+      entity_id: input_select.estacoes_de_radio
+      to: "TSF"
+    action:
+      - service: media_player.media_stop
+        data:
+          entity_id: media_player.zonacentral
+      - service: media_player.play_media
+        data:
+          entity_id: media_player.zonacentral
+          media_content_id: http://tsfdirecto.tsf.pt/tsfdirecto.mp3  
+          media_content_type: 'audio/mp3'  
+
+  - alias: Antena 1
+    trigger:
+      platform: state
+      entity_id: input_select.estacoes_de_radio
+      to: "Antena 1"
+    action:
+      - service: media_player.media_stop
+        data:
+          entity_id: media_player.zonacentral
+      - service: media_player.play_media
+        data:
+          entity_id: media_player.zonacentral
+          media_content_id: http://radiocast.rtp.pt/antena180a.mp3  
+          media_content_type: 'audio/mp3'  
+          
+  - alias: Antena 2
+    trigger:
+      platform: state
+      entity_id: input_select.estacoes_de_radio
+      to: "Antena 2"
+    action:
+      - service: media_player.media_stop
+        data:
+          entity_id: media_player.zonacentral
+      - service: media_player.play_media
+        data:
+          entity_id: media_player.zonacentral
+          media_content_id: http://radiocast.rtp.pt/antena180a.mp3  
+          media_content_type: 'audio/mp3'  
+          
+
+  - alias: Antena 3
+    trigger:
+      platform: state
+      entity_id: input_select.estacoes_de_radio
+      to: "Antena 3"
+    action:
+      - service: media_player.media_stop
+        data:
+          entity_id: media_player.zonacentral
+      - service: media_player.play_media
+        data:
+          entity_id: media_player.zonacentral
+          media_content_id: http://radiocast.rtp.pt/antena380a.mp3  
           media_content_type: 'audio/mp3'  
 
 
-           
-        
-             
-#              {%- elif is_state('input_select.estacoes_de_radio', 'Nova Era') -%}        
-#                  http://centova.radios.pt:9478/stream/1/  
- #              {%- elif is_state('input_select.estacoes_de_radio', 'Rfm') -%}                 
-#                  http://19553.live.streamtheworld.com:3690/RFM_SC    
-#               {%- elif is_state('input_select.estacoes_de_radio', 'Renascença') -%}
-#                  http://19593.live.streamtheworld.com:80/RADIO_RENASCENCA_SC     
-#               {%- elif is_state('input_select.estacoes_de_radio', 'Oceano Pacífico') -%}   
-#                  http://19553.live.streamtheworld.com:80/OCEANPACIFIC_SC  
-#               {%- elif is_state('input_select.estacoes_de_radio', 'TSF') -%}
-#                 http://tsfdirecto.tsf.pt/tsfdirecto.mp3 
-#               {%- elif is_state('input_select.estacoes_de_radio', 'Antena 1') -%} 
-#                 http://radiocast.rtp.pt/antena180a.mp3   
- #              {%- elif is_state('input_select.estacoes_de_radio', 'Antena 2') -%} 
-#                 http://radiocast.rtp.pt/antena2jazzin80a.mp3                 
-#               {%- elif is_state('input_select.estacoes_de_radio', 'Antena 3') -%} 
-#                  http://radiocast.rtp.pt/antena380a.mp3  
- #              {%- elif is_state('input_select.estacoes_de_radio', 'M80') -%} 
- #                 http://mcrscast.mcr.iol.pt/m80  
- #              {%- elif is_state('input_select.estacoes_de_radio', 'Tropical FM') -%} 
- #                 http://suaradio1.dyndns.ws:10308/stream  
- #              {%- elif is_state('input_select.estacoes_de_radio', 'Musica Anos 80') -%}
- #                 http://stm15.conectastm.com:30890/live
- #              {%- elif is_state('input_select.estacoes_de_radio', 'Smooth FM') -%}  
- #                 http://mcrscast.mcr.iol.pt/smoothfm
-  #             {%- elif is_state('input_select.estacoes_de_radio', 'Radio Radar') -%}     
-  #                http://centova.radios.pt:8497/stream/1/
-   #            {%- endif -%}
+  - alias: Tropical FM
+    trigger:
+      platform: state
+      entity_id: input_select.estacoes_de_radio
+      to: "Tropical FM"
+    action:
+      - service: media_player.media_stop
+        data:
+          entity_id: media_player.zonacentral
+      - service: media_player.play_media
+        data:
+          entity_id: media_player.zonacentral
+          media_content_id: http://suaradio1.dyndns.ws:10308/stream  
+          media_content_type: 'audio/mp3'  
           
+  - alias: M80
+    trigger:
+      platform: state
+      entity_id: input_select.estacoes_de_radio
+      to: "M80"
+    action:
+      - service: media_player.media_stop
+        data:
+          entity_id: media_player.zonacentral
+      - service: media_player.play_media
+        data:
+          entity_id: media_player.zonacentral
+          media_content_id: http://mcrscast.mcr.iol.pt/m80   
+          media_content_type: 'audio/mp3'  
+
+  - alias: Musica Anos 80
+    trigger:
+      platform: state
+      entity_id: input_select.estacoes_de_radio
+      to: "Musica Anos 80"
+    action:
+      - service: media_player.media_stop
+        data:
+          entity_id: media_player.zonacentral
+      - service: media_player.play_media
+        data:
+          entity_id: media_player.zonacentral
+          media_content_id: http://stm15.conectastm.com:30890/live  
+          media_content_type: 'audio/mp3'  
+
+  - alias: Smooth FM
+    trigger:
+      platform: state
+      entity_id: input_select.estacoes_de_radio
+      to: "Smooth FM"
+    action:
+      - service: media_player.media_stop
+        data:
+          entity_id: media_player.zonacentral
+      - service: media_player.play_media
+        data:
+          entity_id: media_player.zonacentral
+          media_content_id: http://mcrscast.mcr.iol.pt/smoothfm
+          media_content_type: 'audio/mp3'       
+
+  - alias: Radio Radar
+    trigger:
+      platform: state
+      entity_id: input_select.estacoes_de_radio
+      to: "Radio Radar"
+    action:
+      - service: media_player.media_stop
+        data:
+          entity_id: media_player.zonacentral
+      - service: media_player.play_media
+        data:
+          entity_id: media_player.zonacentral
+          media_content_id: http://centova.radios.pt:8497/stream/1/
+          media_content_type: 'audio/mp3'       
+          
+
 
 
 ###############################################################################
