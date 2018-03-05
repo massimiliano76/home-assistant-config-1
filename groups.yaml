@@ -77,12 +77,14 @@ dispositivos_na_rede:
 ################################################
 energiateste:
   view: yes
+  name: PAINEL DE TESTES
   icon: mdi:grid
   entities:
     - group.energia
     - group.totalizadores
     - group.consumos_mensais
     - group.consumos_diarios
+    - input_boolean.tv_cozinha
    
     
    
@@ -97,7 +99,8 @@ energiateste:
 familia:
   name: Familia
   entities:
-    - switch.tvcozinha
+    - input_boolean.box_sala
+    - input_boolean.tv_cozinha
     - switch.computador
     - input_select.opcoespc
     - input_boolean.porta_rua_automatica

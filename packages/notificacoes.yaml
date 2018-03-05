@@ -183,15 +183,15 @@ automation:
       platform: time
       at: '21:15:00'
     action:
-      - service: tts.microsoft_say
+      - service: tts.google_say
         entity_id: media_player.zonacentral
         data_template:
-          message: "Olá Beatris, sou a luna, está na hora de ires lavar os dentes , fazer xixi e ires para a cama"
-      - delay: 00:04
-      - service: tts.microsoft_say
+          message: "Biatris está na hora de ires lavar os dentes, e ires para a cama. Não te esqueças de arrumar a mochila da escola."
+      - delay: 00:03
+      - service: tts.google_say
         entity_id: media_player.zonacentral
         data_template:
-          message: "Beatris, já foste lavar os dentes? Se não foste o que estás á espera?"
+          message: "biatris ja lavaste os dentes se nao lavaste estás á espera do que?"
 
       
      
@@ -268,13 +268,13 @@ binary_sensor:
 
 notify:
  
-  - name: telegram
-    platform: telegram
-    chat_id: !secret chatid01
+#  - name: telegram
+#    platform: telegram
+#    chat_id: !secret chatid01
   
-  - name: telegramp
-    platform: telegram
-    chat_id: !secret chatid02
+#  - name: telegramp
+#    platform: telegram
+#    chat_id: !secret chatid02
 
   - name: rodolfozanzito
     platform: zanzito

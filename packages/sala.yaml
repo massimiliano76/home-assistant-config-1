@@ -16,7 +16,20 @@ homeassistant:
     sensor.tvsala:
       icon: mdi:desktop-mac
     
-      
+###############################################################################
+#                                                                             #
+#                         INPUT   BOOLEAN                                     #
+#                                                                             #
+###############################################################################      
+        
+    
+
+input_boolean:
+   
+  box_sala:
+    name: Box Sala
+    icon: mdi:television-classic
+    initial: off      
       
      
 
@@ -30,7 +43,7 @@ automation:
   - alias: Liga Candeiro
     trigger:
       platform: time
-      at: '17:30:00'
+      at: '19:30:00'
     action:
       service: switch.turn_on
       data:
@@ -45,9 +58,82 @@ automation:
       service: switch.turn_off
       data:
         entity_id: switch.candeiro_sofa
-        
 
-  
+#Automação para ligar box quando a tv é ligada.      
+  - alias: Automação box sala on tv on
+    initial_state: true
+    trigger:
+      platform: template
+      value_template: >
+          {%- if is_state("media_player.panasonic_viera_tv", "on") -%}
+            true
+          {% endif %}
+    action:
+      - delay:
+          seconds: 3
+      - service: switch.broadlink_send_packet_192_168_1_100
+        data:
+         packet:
+         - 'JgBoAAoVFBUUFhQLCxQVFAsKCwoVFBULChUKAAtqChUUFRUVFAsKFRQVCwoLCxMVFQsKFQoAC2oLFBQVFRUUCwsUFRUKCgsKFRUUCwoVCwALaQsUFRQVFRQLCxQUFgoKCwoUFhULCRULAA0F'        
+      - service: homeassistant.turn_on
+        data:
+          entity_id: input_boolean.box_sala
+
+#Automação para desligar a box quando a tv é desligada.      
+  - alias: Automação box sala off tv off
+    initial_state: true
+    trigger:
+      platform: template
+      value_template: >
+          {%- if is_state("media_player.panasonic_viera_tv", "off") -%}
+            true
+          {% endif %}
+    action:
+      - delay:
+          seconds: 5
+      - service: switch.broadlink_send_packet_192_168_1_100
+        data:
+          packet:
+          - 'JgBoAAoVFBUUFhQLCxQVFAsKCwoVFBULChUKAAtqChUUFRUVFAsKFRQVCwoLCxMVFQsKFQoAC2oLFBQVFRUUCwsUFRUKCgsKFRUUCwoVCwALaQsUFRQVFRQLCxQUFgoKCwoUFhULCRULAA0F'
+      - service: homeassistant.turn_off
+        data:
+          entity_id: input_boolean.box_sala  
+
+          
+
+#Automação para ligar a tv quando o botao input_boolean é activo.     
+  - alias: Automação para ligar tv sala botao activo
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: input_boolean.box_sala
+      from: "off"
+      to: "on"
+    condition:
+      condition: template
+      value_template: "{{states.media_player.panasonic_viera_tv.state == 'off'}}"
+    action:      
+      - service: switch.broadlink_send_packet_192_168_1_100
+        data:
+          packet:
+          - 'JgAyAXE6Dw4OKw8ODg8NDw4PDg8NDw4PDg4ODw8ODQ8OLA4ODg8ODw0PDg8ODw0PDw4ODw0sDg8ODg4PDQ8ODw4PDQ8ODw8qDw4OKw8rDisOKw4PDg8OKw4ODiwNLA8qDysODg8rDQAJm3I5Dw4PKg8ODg8ODg4PDg8NDw4PDg8NDw8ODg8OKw4ODg8PDg0QDQ8ODw4ODg8ODw4rDg8ODg4PDg8NDw4PDg8NDw8qDw4PKg8rDisPKg4PDw4NLA4PDisOKw8qDysODg4sDgAJm3E6Dw4OKw8ODg8NDw8ODRAODg4PDg4PDg8ODQ8OLA0PDg8ODw4ODg8ODw0PDg8ODw0sDg8NDw4PDQ8ODw4PDg4ODw8qDw4OKw4sDisOKw8ODg8NLA4ODysOKw4rDysODg8rDgANBQAAAAAAAA=='
+
+##Automação para desligar a tv quando o botao input_boolean é desactivo.     
+  - alias: Automação para desligar e tv sala botao desactivo
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: input_boolean.box_sala
+      from: "on"
+      to: "off"
+    condition:
+      condition: template
+      value_template: "{{states.media_player.panasonic_viera_tv.state == 'on'}}"
+    action:      
+      - service: switch.broadlink_send_packet_192_168_1_100
+        data:
+          packet:
+          - 'JgAyAXE6Dw4OKw8ODg8NDw4PDg8NDw4PDg4ODw8ODQ8OLA4ODg8ODw0PDg8ODw0PDw4ODw0sDg8ODg4PDQ8ODw4PDQ8ODw8qDw4OKw8rDisOKw4PDg8OKw4ODiwNLA8qDysODg8rDQAJm3I5Dw4PKg8ODg8ODg4PDg8NDw4PDg8NDw8ODg8OKw4ODg8PDg0QDQ8ODw4ODg8ODw4rDg8ODg4PDg8NDw4PDg8NDw8qDw4PKg8rDisPKg4PDw4NLA4PDisOKw8qDysODg4sDgAJm3E6Dw4OKw8ODg8NDw8ODRAODg4PDg4PDg8ODQ8OLA0PDg8ODw4ODg8ODw0PDg8ODw0sDg8NDw4PDQ8ODw4PDg4ODw8qDw4OKw4sDisOKw8ODg8NLA4ODysOKw4rDysODg8rDgANBQAAAAAAAA==' 
 ###############################################################################
 #                                                                             #
 #                           S C R I P T S                                     #
@@ -96,6 +182,13 @@ switch:
     payload_off: "OFF"
     retain: true
     
+    
+  - platform: broadlink
+    host: 192.168.1.100
+    mac: '34:ea:34:58:8a:1d'
+    
+    
+
 ###############################################################################
 #                                                                             #
 #                           B I N A R Y   S E N S O R S                       #

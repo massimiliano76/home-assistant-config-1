@@ -1,0 +1,6 @@
+light.gateway_light_34ce0091e2e0:
+  platform: xiaomi_aqara
+  unique_id: rgb34ce0091e2e0
+sensor.illumination_34ce0091e2e0:
+  platform: xiaomi_aqara
+  unique_id: illumination34ce0091e2e0

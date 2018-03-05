@@ -18,10 +18,6 @@ switch:
     host: 192.168.1.111
     mac: '34:ea:34:58:8a:2a'
     switches:
-#      tvbia:
-#        friendly_name: 'tvbia'
-#        command_on: 'JgCEAFcdDxwPDg8ODx0dDg8ODw4PDg8ODw4PDg8ODg8ODx0dDg8ODg8ODw4PAAq9Vx4OHQ4PDg8OHh0ODg8PDg4PDg8ODw4PDg8ODg8OHR0PDg8ODw4ODw4ACr5XHg4dDg8ODw4eHQ4ODw8ODg8ODw4PDg8ODw4ODw4dHQ8ODw4PDg4PDgANBQAAAAA='
-#        command_off: 'JgCEAFceDh0ODw4PDh0eDg4PDg8ODw4PDg8ODg8ODw4PDg8ODw4dDg8dDg8OAAq9WB0OHQ8ODg8OHh0ODg8PDg4PDg8ODw4PDg8ODw4ODw4PDh0PDh0ODw4ACr5XHQ8cDw4PDg8dHQ4PDg8ODw4PDg8ODw4PDg4PDg8ODw4PHQ4PHA8ODwANBQAAAAA='
       boxbia: 
         friendly_name: 'boxbia'
         command_on: 'JgBOAAoVFRUUFRQLChUVFQkLCwsUFRQKCxUJAAtoChUVFBUVFAsKFRUVCQsLCxMVFQoLFQkAC2gKFRQVFRUUCgsVFBULCgkMFBUVCgsUCgANBQAAAAAAAAAAAAA=' 
@@ -29,6 +25,18 @@ switch:
       desligaacbia:
         friendly_name: 'Ar Condicionado Bia'
         command_off: 'JgC8AXE5DioPDg0PDQ8OKw0PDg4ODw0PDSsODw0rDisNDw0sDSsOKw0rDisNDwwQDSwMEA0QDBAMEAwQDRAMLAwtDSsOKwwQDBANEAwQDBANEAwQDBAMEA0QDBAMEAwQDRAMEAwQDRAMEAwQDBANEAwQDBAMEA4PDSsODw0PDQ8ODg4PDQ8NAAPNcjgOKg8ODg4ODg8qDg4PDQ8NDw4OKg8ODioPKg4ODykPKg8pDyoPKg4ODw0PKg4ODw0PDg4ODg4PDQ8ODg4PDQ8ODg4ODg8NDw4ODg8NDw0PDg4ODw0PDg4ODg4PDQ8qDw0PDQ8ODioPKg4ODyoODg8NDw0PDg4ODw0PDg4ODg4PDQ8ODg4PDQ8ODg4OKg8ODioPDQ8ODg4PDQ8ODg4ODg8NDw4ODg8NDw0PDg4ODw0PDg4ODg4PDQ8ODg4PDQ8ODg4ODg8NDw4ODg8NDw0PDg4ODw0PDg4ODg4PDQ8ODg4PDQ8NDw4ODg8NDw4ODg4ODw0PDg4ODg4PDQ8ODg4PKg4qDw0PDg4ODg4PDg4ODg4ODg8ODg4NDw4ODg8NDw0PDg8NDw0rDisNKw4rDg4OKw0rDgANBQAAAAAAAAAAAAAAAA=='
+        
+        
+#Switch interruptor quarto bia
+  - platform: mqtt
+    name: "Interruptor Quarto Bia"
+    state_topic: "stat/sonoffquartobia/POWER"
+    command_topic: "cmnd/sonoffquartobia/power"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: true
+            
         
         
         
@@ -67,11 +75,6 @@ input_boolean:
   ac_bia_off:
     name: Desligar Ac Bia
     icon: mdi:air-conditioner
-    initial: off
-    
-  estado_tv_bia:
-    name: Tv Bia
-    icon: mdi:television-classic
     initial: off
     
   box_bia:
@@ -127,11 +130,11 @@ automation:
           {% endif %}
     action:
       - delay:
-          seconds: 5
+          seconds: 3
       - service: switch.broadlink_send_packet_192_168_1_111
         data:
          packet:
-         - 'JgCEAFcdDxwPDg8ODx0dDg8ODw4PDg8ODw4PDg8ODg8ODx0dDg8ODg8ODw4PAAq9Vx4OHQ4PDg8OHh0ODg8PDg4PDg8ODw4PDg8ODg8OHR0PDg8ODw4ODw4ACr5XHg4dDg8ODw4eHQ4ODw8ODg8ODw4PDg8ODw4ODw4dHQ8ODw4PDg4PDgANBQAAAAA=' 
+         - 'JgCEAFcdDxwPDg8ODx0dDg8ODw4PDg8ODw4PDg8ODg8ODx0dDg8ODg8ODw4PAAq9Vx4OHQ4PDg8OHh0ODg8PDg4PDg8ODw4PDg8ODg8OHR0PDg8ODw4ODw4ACr5XHg4dDg8ODw4eHQ4ODw8ODg8ODw4PDg8ODw4ODw4dHQ8ODw4PDg4PDgANBQAAAAA='        
       - service: homeassistant.turn_on
         data:
           entity_id: input_boolean.box_bia 
@@ -207,7 +210,11 @@ binary_sensor:
       
  
       
-      
+###############################################################################
+#                                                                             #
+#                           G R O U P                                         #
+#                                                                             #
+###############################################################################       
       
 group:
 
@@ -223,8 +230,18 @@ group:
     name: Quarto da Bia
     icon: mdi:face
     entities:
-      - input_boolean.estado_tv_bia
+      - switch.interruptor_quarto_bia
       - input_boolean.box_bia
       - climate.ar_condicionado_bia
       - input_boolean.ac_bia_off
-    
+      
+      
+###############################################################################
+#                                                                             #
+#                           S W I T C H E S                                   #
+#                                                                             #
+###############################################################################  
+
+
+  
+

@@ -38,9 +38,58 @@ automation:
     action:
       service: script.ligarledsbancada
  
+  - alias: ligartvcozinhaldr
+    trigger:
+      platform: mqtt
+      topic: /LDR
+      payload: 'LDR_ON'
+    action:
+      service: homeassistant.turn_on
+      data:
+        entity_id: input_boolean.tv_cozinha        
+        
+  - alias: ligartvcozinhaldr
+    trigger:
+      platform: mqtt
+      topic: /LDR
+      payload: 'LDR_OFF'
+    action:
+      service: homeassistant.turn_off
+      data:
+        entity_id: input_boolean.tv_cozinha  
         
         
-
+  - alias: ligartvcomcomandoligar
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: input_boolean.tv_cozinha  
+      from: "off"
+      to: "on"
+    condition:
+      condition: template
+      value_template: "{{states.binary_sensor.tv_cozinha.state == 'off'}}"
+    action:
+      - service: switch.broadlink_send_packet_192_168_1_68
+        data:
+          packet:
+          - 'JgBYAAABJZQRExESEhISEhISEhISNhISEhISEhISEhIRExETETcSEhISEjYSEhI3EhIRExESEhISNxISETcSEhI3ETcSNxI2EgAGDgABJkoSAAxCAAElShIADQU='  
+          
+  - alias: desligartvcomcomandoligar
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: input_boolean.tv_cozinha  
+      from: "on"
+      to: "off"
+    condition:
+      condition: template
+      value_template: "{{states.binary_sensor.tv_cozinha.state == 'on'}}"
+    action:
+      - service: switch.broadlink_send_packet_192_168_1_68
+        data:
+          packet:
+          - 'JgBYAAABJZQRExESEhISEhISEhISNhISEhISEhISEhIRExETETcSEhISEjYSEhI3EhIRExESEhISNxISETcSEhI3ETcSNxI2EgAGDgABJkoSAAxCAAElShIADQU='  
       
 #Liga a Tv da Cozinha às 07:46 e posteriormente muda o canal para a RTP1 para ver as noticias da manhã. Automação Nº 2
   - alias: Liga TV da Cozinha Switch_8
@@ -144,6 +193,15 @@ binary_sensor:
     name: "Leds da bancada"
     payload_on: "11991929"
     payload_off: "11991929off"
+    retain: true
+    
+    
+  - platform: mqtt
+    state_topic: "/LDR"
+    name: "tv cozinha"
+    payload_on: "LDR_ON"
+    payload_off: "LDR_OFF"
+    
     
   - platform: mqtt
     name: "Sonoff Leds Bancada Cozinha"
@@ -196,3 +254,16 @@ switch:
     payload_on: "ON"
     payload_off: "OFF"
     retain: true
+###############################################################################
+#                                                                             #
+#                         INPUT   BOOLEAN                                     #
+#                                                                             #
+###############################################################################      
+        
+    
+
+input_boolean:
+  tv_cozinha:
+    name: tv cozinha
+    icon: mdi:tv
+    initial: off

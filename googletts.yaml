@@ -11,3 +11,11 @@
   type: HeliaRUS
   rate: -10
   volume: 40
+  
+- platform: voicerss
+  api_key: !secret api_key_voicerss
+  language: 'pt-pt'
+  codec: mp3
+  format: '44khz_16bit_stereo'
+  
+  

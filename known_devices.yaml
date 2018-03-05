@@ -107,3 +107,21 @@ desktoplcolt03:
   picture:
   track: true
   vendor: AzureWave Technology Inc.
+
+nokia_3310:
+  hide_if_away: false
+  icon:
+  mac: BT_90:A3:65:55:9E:9D
+  name: Nokia 3310
+  picture:
+  track: true
+  vendor: HMD Global Oy
+
+rita_gouveia:
+  hide_if_away: false
+  icon:
+  mac: BT_84:11:9E:15:CE:1D
+  name: Rita Gouveia
+  picture:
+  track: true
+  vendor: Samsung Electronics Co.,Ltd

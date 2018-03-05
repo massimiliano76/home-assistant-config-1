@@ -80,6 +80,12 @@ switch.leds_bancada_cozinha:
   persistent: true
 automation.ligar_radio_botao:
   persistent: true  
+input_boolean.tv_cozinha:
+  persistent: true 
+input_boolean.box_sala:
+  persistent: true 
+input_boolean.box_bia:
+  persistent: true 
 
 
 
