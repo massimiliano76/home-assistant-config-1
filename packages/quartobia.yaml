@@ -36,7 +36,15 @@ switch:
     payload_on: "ON"
     payload_off: "OFF"
     retain: true
-            
+
+  - platform: mqtt
+    name: "Candeiro cama Bia"
+    state_topic: "stat/candeirobia/POWER"
+    command_topic: "cmnd/candeirobia/power"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: true    
         
         
         
@@ -88,6 +96,25 @@ input_boolean:
 #                                                                             #
 ###############################################################################     
 automation:    
+
+#Automação para desligar o candeiro da bia durante a madrugada quando ele está ligado por mais que 10 min.
+
+  - alias: Desligar candeiro da Bia
+    trigger:
+      - platform: state
+        entity_id: switch.candeiro_cama_bia
+        to: 'on'
+        for:
+          minutes: 10
+    condition:
+      condition: time
+      after: '15:00'
+      before: '17:35'
+    action:
+      - service: switch.turn_off
+        data:
+          entity_id: switch.candeiro_cama_bia
+         
 #Quando carregado o botao do input_boolean o ac é desligado.
   - alias: Desliga Ac quarto Bia
     initial_state: true
@@ -134,7 +161,7 @@ automation:
       - service: switch.broadlink_send_packet_192_168_1_111
         data:
          packet:
-         - 'JgCEAFcdDxwPDg8ODx0dDg8ODw4PDg8ODw4PDg8ODg8ODx0dDg8ODg8ODw4PAAq9Vx4OHQ4PDg8OHh0ODg8PDg4PDg8ODw4PDg8ODg8OHR0PDg8ODw4ODw4ACr5XHg4dDg8ODw4eHQ4ODw8ODg8ODw4PDg8ODw4ODw4dHQ8ODw4PDg4PDgANBQAAAAA='        
+         - 'JgCEAFceDh0ODw4PDh0eDg4PDg8ODw4PDg8ODg8ODw4PDg8ODw4dDg8dDg8OAAq9WB0OHQ8ODg8OHh0ODg8PDg4PDg8ODw4PDg8ODw4ODw4PDh0PDh0ODw4ACr5XHQ8cDw4PDg8dHQ4PDg8ODw4PDg8ODw4PDg4PDg8ODw4PHQ4PHA8ODwANBQAAAAA='        
       - service: homeassistant.turn_on
         data:
           entity_id: input_boolean.box_bia 
@@ -194,6 +221,24 @@ automation:
       - service: homeassistant.turn_off
         data:
           entity_id: media_player.box_quarto_bia  
+          
+##Ligar Tv bia às 07:35
+  - alias: ligar tv bia de manha
+    trigger:
+      platform: time
+      at: '07:35:00'
+    condition:
+      - condition: time
+        weekday:
+          - mon
+          - tue
+          - wed
+          - thu
+          - fri
+    action:
+      - service: homeassistant.turn_on
+        data:
+          entity_id: media_player.box_quarto_bia 
         
 ###############################################################################
 #                                                                             #

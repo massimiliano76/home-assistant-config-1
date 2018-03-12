@@ -33,13 +33,19 @@ automation:
         topic: home/433toMQTT
         payload: 10340193off
         retain: 'true'
-    - service: notify.geralzanzito
+    - service: notify.pushnotification
       data:
-        message: "Campainha da porta de entrada tocou no dia {{states.sensor.date.state}} às {{states.sensor.time.state}}"
+        title: 'Campainha Porta de Casa'
+        message: 'Tocou no dia {{states.sensor.date.state}} às {{states.sensor.time.state}}'
         data:
-          photo:
-            url: http://192.168.1.89:8080/photo.jpg
-           
+          url: http://192.168.1.89:8080/photo.jpg
+#    - service: notify.geralzanzito
+#      data:
+#        message: "tocou no dia {{states.sensor.date.state}} às {{states.sensor.time.state}}"
+#        data:
+#          photo:
+#            url: http://192.168.1.89:8080/photo.jpg
+#           
 
 #Informa os utilizadores da temperatura dentro de casa, e o estado do tempo na rua.
   - alias: Estado do tempo
@@ -182,6 +188,14 @@ automation:
     trigger:
       platform: time
       at: '21:15:00'
+    condition:
+      - condition: time
+        weekday:
+          - mon
+          - tue
+          - wed
+          - thu
+          - fri
     action:
       - service: tts.google_say
         entity_id: media_player.zonacentral
@@ -193,8 +207,64 @@ automation:
         data_template:
           message: "biatris ja lavaste os dentes se nao lavaste estás á espera do que?"
 
-      
-     
+  - alias: Beatriz ir para a escola
+    trigger:
+      platform: time
+      at: '08:50:00'
+    condition:
+      - condition: time
+        weekday:
+          - mon
+          - tue
+          - wed
+          - thu
+          - fri
+    action:
+      - service: tts.google_say
+        entity_id: media_player.zonacentral
+        data_template:
+          message: "Biatris faltam 10 minutos para tocar. Prepara tudo para levares para a escola"  
+      - delay: 00:05:00
+      - service: tts.google_say
+        entity_id: media_player.zonacentral
+        data_template:
+          message: "Faltam 5 minutos para tocar, vou desligar todas as televisões, o rádio e as luzes" 
+      - service: homeassistant.turn_off
+        data_template:
+          entity_id: >
+           {%- if states.switch.radio.state == 'on' -%}
+            switch.radio
+           {%- elif states.media_player.box_quarto_bia.state == 'playing' -%}
+            media_player.box_quarto_bia
+           {%- elif states.switch.interruptor_quarto_bia.state == 'on' -%} 
+            switch.interruptor_quarto_bia
+           {%- elif states.binary_sensor.tv_cozinha.state == 'on' -%} 
+            input_boolean.tv_cozinha
+           {%- elif states.switch.luz_casa_de_banho.state == 'on' -%} 
+            switch.luz_casa_de_banho
+           {%- endif -%}
+             
+          
+          
+          
+          
+#      - service_template: >
+#           {% if is_state('switch.radio', 'on') %}
+#           switch.turn_off
+#           {% endif %}
+#      entity_id: switch.radio  
+#     - service_template: >
+#       {% if is_state('binary_sensor.tv_cozinha', 'on') %}
+#       homeassistant.turn_off
+#       {% endif %}
+#       entity_id: input_boolean.tv_cozinha
+#     - service_template: >
+#       {% if is_state('switch.luz_casa_de_banho', 'on') %}
+#       switch.turn_off
+#       {% endif %}
+#       entity_id: switch.luz_casa_de_banho 
+   
+  
     
  
        

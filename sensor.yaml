@@ -111,14 +111,26 @@
           Parcialmente Nublado
         {%- elif is_state('sensor.dark_sky_summary', 'Clear') -%}
           Limpo
-        {%- elif is_state('sensor.dark_sky_summary', 'rain') -%}
+        {%- elif is_state('sensor.dark_sky_summary', 'Rain') -%}
           Chuvoso
         {%- elif is_state('sensor.dark_sky_summary', 'Mostly Cloudy') -%}
           Muito Nublado
-        {%- elif is_state('sensor.dark_sky_summary', 'overcast') -%}
+        {%- elif is_state('sensor.dark_sky_summary', 'Overcast') -%}
           Nublado
         {%- elif is_state('sensor.dark_sky_summary', 'Light Rain') -%}
-          Aguaceiros   
+          Aguaceiros  
+        {%- elif is_state('sensor.dark_sky_summary', 'Drizzle') -%}    
+            Chuviscos  
+        {%- elif is_state('sensor.dark_sky_summary', 'Breezy and Overcast') -%}    
+            Vento e nublado   
+        {%- elif is_state('sensor.dark_sky_summary', 'Rain and Breezy') -%}    
+            Chuva e vento
+        {%- elif is_state('sensor.dark_sky_summary', 'Rain and Windy') -%}    
+            Chuva e vento
+        {%- elif is_state('sensor.dark_sky_summary', 'Breezy and Mostly Cloudy') -%}    
+            Vento fraco e algumas nuvens
+        {%- elif is_state('sensor.dark_sky_summary', 'Breezy') -%}    
+            Vento fraco              
         {%- endif -%}
     # Horas em que o Sol Nasce e se Põe
     sunrise:

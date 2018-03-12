@@ -8,9 +8,7 @@ homeassistant:
 
   customize:
 
-    sensor.tvcozinha:
-      friendly_name: "Tv da Cozinha"
-      icon: mdi:desktop-mac
+
     switch.leds_bancada_cozinha:
       friendly_name: "Leds Bancada Cozinha"
       icon: mdi:lightbulb-outline 
@@ -164,21 +162,7 @@ script:
 #                                                                             #
 ###############################################################################   
 
-sensor:
-
- 
-
-  - platform: template
-    sensors:
-      tvcozinha:
-        friendly_name: "Tv da Cozinha"
-        value_template: > 
-         {%- if is_state('switch.tvcozinha', 'off') -%}
-            Desligada
-         {%- else -%}
-            Ligada
-         {%- endif -%}
-      
+   
         
 ###############################################################################
 #                                                                             #
@@ -265,5 +249,5 @@ switch:
 input_boolean:
   tv_cozinha:
     name: tv cozinha
-    icon: mdi:tv
+    icon: mdi:television-classic
     initial: off

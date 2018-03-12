@@ -29,7 +29,6 @@ cameras_transito:
   name: Cameras de Trânsito
   icon: mdi:camcorder
   entities:
-    - media_player.vodafone_stb
     - camera.ponte_vasco_da_gama_sul
     - camera.ponte_vasco_da_gama_norte
     - camera.ponte_25_abril_sul

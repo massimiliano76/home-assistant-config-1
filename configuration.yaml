@@ -99,7 +99,13 @@ media_player:
     
   - platform: panasonic_viera
     host: 192.168.1.73
-  
+
+octoprint:
+  host: 192.168.1.101
+  api_key: !secret api_impressora3d
+  bed: true
+  number_of_tools: 1
+    
 
 map:
 discovery:

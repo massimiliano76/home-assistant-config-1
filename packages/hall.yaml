@@ -163,29 +163,25 @@ automation:
         entity_id: switch.aromatizador
     
 #Abre a porta da rua automaticamente quando chego á minha rua e quando estou próximo de casa.
-#  - alias: Abrir porta da rua automaticamente
-#    initial_state: true 
-#    trigger:
-#      platform: numeric_state
-#      entity_id: proximity.rodolfo_casa
-#      below: 100
-#    condition:
-##      condition: state
-#      entity_id: input_boolean.porta_rua_automatica
-#      state: 'on'
-#    action:
-#      - service: mqtt.publish
-#        data:
-#          topic: /interruptor/set
-#          payload: 1
-#      - delay: 00:00:01
-#      - service: mqtt.publish
-#        data:
-#          topic: /interruptor/set
-#          payload: 0
-#          retain: 'true'
-#      - service: input_boolean.turn_off
-#        entity_id: input_boolean.porta_rua  
+  - alias: Abrir porta da rua automaticamente
+    initial_state: true 
+    trigger:
+      platform: numeric_state
+      entity_id: proximity.rodolfo_casa
+      below: 100
+    action:
+      - service: mqtt.publish
+        data:
+          topic: /interruptor/set
+          payload: 1
+      - delay: 00:00:01
+      - service: mqtt.publish
+        data:
+          topic: /interruptor/set
+          payload: 0
+          retain: 'true'
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.porta_rua  
 
       
   
@@ -257,10 +253,7 @@ input_boolean:
     icon: mdi:bell-ring
     initial: on
     
-  porta_rua_automatica:
-    name: Abertura de porta automática
-    icon: mdi:door-open
-    initial: off
+
     
 
     
