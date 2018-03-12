@@ -181,7 +181,7 @@ automation:
     trigger:
       platform: template
       value_template: >
-          {%- if is_state("sensor.octoprint_current_state", "operational") -%}
+          {%- if is_state("sensor.octoprint_current_state", "Operational") -%}
             true
            {% else %}
             false
@@ -197,6 +197,7 @@ automation:
     trigger:
       platform: numeric_state
       entity_id: sensor.octoprint_job_percentage 
+      above: 50
     action:
       - service: notify.pushnotification_meu_telemovel
         data:
@@ -211,8 +212,8 @@ automation:
     trigger:
       platform: state
       entity_id: sensor.octoprint_current_state
-      from: 'printing'
-      to: 'operational'
+      from: 'Printing'
+      to: 'Operational'
     action:
       - service: notify.pushnotification_meu_telemovel
         data:
