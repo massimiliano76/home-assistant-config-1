@@ -106,7 +106,9 @@ automation:
       - thu
       - fri
     action:
-      service: script.ligartv
+      service: homeassistant.turn_on
+      data:
+        entity_id: input_boolean.tv_cozinha      
       
 #Desliga a tv da Cozinha às 08:55. Automação Nº 3
   - alias: Desliga TV da Cozinha Switch_8
@@ -118,9 +120,9 @@ automation:
       entity_id: switch.ligaredesligar
       state: 'on'
     action:
-      service: switch.turn_off
+      service: homeassistant.turn_off
       data:
-        entity_id: switch.ligaredesligar
+        entity_id: input_boolean.tv_cozinha      
   
 ###############################################################################
 #                                                                             #
@@ -128,19 +130,7 @@ automation:
 #                                                                             #
 ###############################################################################  
 
-script:
 
-#Script referente à automação Nº 2
-  ligartv:
-    sequence:
-      - service: switch.turn_on
-        data:
-          entity_id: switch.ligaredesligar
-      - delay:
-          seconds: 5
-      - service: switch.turn_on
-        data:
-          entity_id: switch.rtp1
                
 #Script referente à automação Nº 3
   ligarledsbancada:
