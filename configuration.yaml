@@ -89,13 +89,14 @@ media_player:
     name: "Box Quarto Bia"
 #    optimistic: True
     
+    
   - platform: kodi
-    name: zonacentral
-    host: 192.168.1.74
+    name: boxhall
+    host: 192.168.1.112
     port: 8080
     username: root
     password: root
-    turn_off_action: hibernate
+
     
   - platform: panasonic_viera
     host: 192.168.1.73
