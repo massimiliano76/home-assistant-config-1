@@ -5,14 +5,10 @@ homeassistant:
 
 
 
-        
-shell_command:
-  teste: curl -k "http://192.168.1.101:8080/22/on"
-
-
 automation:   
 
-
+##          {% if states.light.ledentrada.attributes.rgb_color ~'' == "(255, 255, 255)" %}
+       
 
  
 
@@ -92,8 +88,8 @@ script:
           
   google:
     sequence:
-      - service: tts.microsoft_say
-        entity_id: media_player.zonacentral
+      - service: tts.google_say
+        entity_id: media_player.boxhall
         data_template:
           message: "Bom dia , estão {{ states.sensor.temperatura_em_casa.state | int }} graus em casa. Hoje o céu está {{ states.sensor.estadodotempo.state }} estão neste momento {{ states.sensor.dark_sky_temperature.state  | int }} graus , e {{ states.sensor.dark_sky_humidity.state | int }}% de humidade. A temperatura máxima vai ser de {{ states.sensor.dark_sky_daily_high_temperature.state | int}} graus e {{ states.sensor.dark_sky_daily_low_temperature.state | int}} graus de mínima. Existe {{ states.sensor.dark_sky_precip_probability.state | int}}% de probabilidade de chover hoje.{% if states('sensor.dark_sky_precip_probability') | int > 50 %} Não te esqueças de levar o chapéu de chuva. Tem um bom dia chuvoso ;){% else %} Tem um bom dia.{% endif %}"
 
