@@ -198,12 +198,12 @@ automation:
           - fri
     action:
       - service: tts.google_say
-        entity_id: media_player.zonacentral
+        entity_id: media_player.boxhall
         data_template:
           message: "Biatris está na hora de ires lavar os dentes, e ires para a cama. Não te esqueças de arrumar a mochila da escola."
       - delay: 00:03
       - service: tts.google_say
-        entity_id: media_player.zonacentral
+        entity_id: media_player.boxhall
         data_template:
           message: "biatris ja lavaste os dentes se nao lavaste estás á espera do que?"
 
@@ -221,29 +221,30 @@ automation:
           - fri
     action:
       - service: tts.google_say
-        entity_id: media_player.zonacentral
+        entity_id: media_player.boxhall
         data_template:
           message: "Biatris faltam 10 minutos para tocar. Prepara tudo para levares para a escola"  
       - delay: 00:05:00
       - service: tts.google_say
-        entity_id: media_player.zonacentral
+        entity_id: media_player.boxhall
         data_template:
           message: "Faltam 5 minutos para tocar, vou desligar todas as televisões, o rádio e as luzes" 
       - service: homeassistant.turn_off
         data_template:
           entity_id: >
-           {%- if states.switch.radio.state == 'on' -%}
+           {% if states.switch.radio.state == 'on' %}
             switch.radio
-           {%- elif states.media_player.box_quarto_bia.state == 'playing' -%}
+           {% elif states.media_player.box_quarto_bia.state == 'playing' %}
             media_player.box_quarto_bia
-           {%- elif states.switch.interruptor_quarto_bia.state == 'on' -%} 
+           {%- elif states.switch.interruptor_quarto_bia.state == 'on' %} 
             switch.interruptor_quarto_bia
-           {%- elif states.binary_sensor.tv_cozinha.state == 'on' -%} 
-            input_boolean.tv_cozinha
-           {%- elif states.switch.luz_casa_de_banho.state == 'on' -%} 
+           {% elif states.switch.luz_casa_de_banho.state == 'on' %} 
             switch.luz_casa_de_banho
            {%- endif -%}
-             
+      - service: input_boolean.turn_off
+        data:
+          entity_id: input_boolean.tv_cozinha
+           
           
           
           
