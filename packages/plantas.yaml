@@ -43,11 +43,11 @@ switch:
 #Switch Nº 4  
   - platform: mqtt
     name: "Regar Plantas Varanda"
-    state_topic: "stat/sonoff1/POWER"
-    command_topic: "cmnd/sonoff1/power"
+    state_topic: "stat/plantas/POWER"
+    command_topic: "cmnd/plantas/power"
     qos: 1
-    payload_on: "1"
-    payload_off: "0"
+    payload_on: "ON"
+    payload_off: "OFF"
     retain: true
     
 ###############################################################################
@@ -59,7 +59,7 @@ switch:
 binary_sensor:
   - platform: mqtt
     name: "Sonoff Plantas Varanda"
-    state_topic: "tele/sonoff1/LWT"
+    state_topic: "tele/plantas/LWT"
     value_template: "{{ value }}"
     payload_on: "Online"
     payload_off: "Offline"
