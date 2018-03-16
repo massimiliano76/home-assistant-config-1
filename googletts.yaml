@@ -3,14 +3,7 @@
   cache_dir: /tmp/tts
   time_memory: 300
   language: 'pt'
-  
-- platform: microsoft
-  api_key: !secret api_key_tts
-  language: pt-pt
-  gender: Female
-  type: HeliaRUS
-  rate: -10
-  volume: 40
+
   
 - platform: voicerss
   api_key: !secret api_key_voicerss
