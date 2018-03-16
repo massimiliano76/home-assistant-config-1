@@ -131,7 +131,7 @@ automation:
 ###############################################################################  
 
 
-               
+script:               
 #Script referente à automação Nº 3
   ligarledsbancada:
     sequence:
