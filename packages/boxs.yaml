@@ -33,14 +33,28 @@ script:
     sequence:
       - service: media_player.volume_up
         data:
-          entity_id: media_player.vodafone_stb
+          entity_id: media_player.box_sala
         
   diminuirvolumeboxsala:
     alias: aumentar volume boxsala
     sequence:
       - service: media_player.volume_down
         data:
-          entity_id: media_player.vodafone_stb
+          entity_id: media_player.box_sala
+          
+  aumentarvolumeboxquarto:
+    alias: aumentar volume boxsala
+    sequence:
+      - service: media_player.volume_up
+        data:
+          entity_id: media_player.box_quarto_bia
+        
+  diminuirvolumeboxquarto:
+    alias: aumentar volume boxsala
+    sequence:
+      - service: media_player.volume_down
+        data:
+          entity_id: media_player.box_quarto_bia
 
   reproducaobox:
     alias: reproducao da box
@@ -49,17 +63,17 @@ script:
         data_template:
           entity_id: >
            {%- if is_state('input_select.zona_da_box', 'Sala') -%}
-               media_player.vodafone_stb
+               media_player.box_sala
            {%- elif is_state('input_select.zona_da_box', 'Quarto') -%}
-               media_player.Sala
+               media_player.box_quarto_bia
            {%- endif -%}
       - service: media_player.play_media
         data_template:
           entity_id: >
             {%- if is_state('input_select.zona_da_box', 'Sala') -%}
-                media_player.vodafone_stb
+                media_player.box_sala
             {%- elif is_state('input_select.zona_da_box', 'Quarto') -%}
-                media_player.Sala
+                media_player.box_quarto_bia
             {%- endif -%}
           media_content_id: >
               {%- if is_state('input_select.canal', 'RTP 1') -%}
@@ -1226,5 +1240,7 @@ group:
       - input_select.canal
       - script.aumentarvolumeboxsala
       - script.diminuirvolumeboxsala
+      - script.aumentarvolumeboxquarto
+      - script.diminuirvolumeboxquarto
       - script.reproducaobox
      
