@@ -158,9 +158,13 @@ automation:
 # Informa o Utilizador que a Paula acabou de chegar à zona de Residência mas que pode ou não estar em casa. 
   - alias: Paula Acabou de chegar a zona de residencia
     trigger:
-      - platform: numeric_state
-        entity_id: proximity.paula_casa
-        below: 200
+      platform: template
+      value_template: >
+          {% if states.sensor.paulageocode.attributes.Street == "Rua Timor"%}
+            true
+           {% else %}
+            false
+          {% endif %}
     action:
       - service: input_select.select_option
         data:
@@ -247,9 +251,13 @@ automation:
 #Informa o utilizador que a Paula acabou de chegar ao Trabalho.
   - alias: Paula acabou de chegar ao trabalho
     trigger:
-      - platform: numeric_state
-        entity_id: proximity.paula_trabalho
-        below: 150
+      platform: template
+      value_template: >
+          {% if states.sensor.paulageocode.attributes.Street == "Rua Castilho"%}
+            true
+           {% else %}
+            false
+          {% endif %}
     action:
       - service: input_select.select_option
         data:
@@ -264,9 +272,13 @@ automation:
 #Informa o utilizador que a Paula acabou de sair do Trabalho.
   - alias: Paula acabou de sair do trabalho
     trigger:
-      - platform: numeric_state
-        entity_id: proximity.paula_trabalho
-        above: 150
+      platform: template
+      value_template: >
+          {% if states.sensor.paulageocode.attributes.Street != "Rua Castilho"%}
+            true
+           {% else %}
+            false
+          {% endif %}
     action:
       - service: input_select.select_option
         data:
