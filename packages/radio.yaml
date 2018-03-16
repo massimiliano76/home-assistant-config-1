@@ -26,7 +26,7 @@ automation:
     action:
       service: media_player.volume_set
       data_template:
-        entity_id: media_player.zonacentral
+        entity_id: media_player.boxhall
         volume_level: '{{states.input_number.volume_radio.state}}'
         
   - alias: Parar
@@ -37,7 +37,7 @@ automation:
     action:
       - service: media_player.media_stop
         data:
-          entity_id: media_player.zonacentral
+          entity_id: media_player.boxhall
      
         
 
@@ -49,7 +49,7 @@ automation:
     action:
       - service: media_player.play_media
         data:
-          entity_id: media_player.zonacentral
+          entity_id: media_player.boxhall
           media_content_id: http://stream.radio.com.pt/ROLI-ENC-401
           media_content_type: 'audio/mp3'
           
@@ -61,7 +61,7 @@ automation:
     action:
       - service: media_player.play_media
         data:
-          entity_id: media_player.zonacentral
+          entity_id: media_player.boxhall
           media_content_id: http://stream.radio.com.pt/ROLI-ENC-498
           media_content_type: 'audio/mp3'     
 
@@ -73,10 +73,10 @@ automation:
     action:
       - service: media_player.media_stop
         data:
-          entity_id: media_player.zonacentral
+          entity_id: media_player.boxhall
       - service: media_player.play_media
         data:
-          entity_id: media_player.zonacentral
+          entity_id: media_player.boxhall
           media_content_id: http://stream.radio.com.pt/ROLI-ENC-495
           media_content_type: 'audio/mp3' 
 
@@ -88,10 +88,10 @@ automation:
     action:
       - service: media_player.media_stop
         data:
-          entity_id: media_player.zonacentral
+          entity_id: media_player.boxhall
       - service: media_player.play_media
         data:
-          entity_id: media_player.zonacentral
+          entity_id: media_player.boxhall
           media_content_id: http://19553.live.streamtheworld.com:80/MEGA_HITS_SC
           media_content_type: 'audio/mp3'          
  
@@ -103,10 +103,10 @@ automation:
     action:
       - service: media_player.media_stop
         data:
-          entity_id: media_player.zonacentral
+          entity_id: media_player.boxhall
       - service: media_player.play_media
         data:
-          entity_id: media_player.zonacentral
+          entity_id: media_player.boxhall
           media_content_id: http://mcrscast.mcr.iol.pt/cidadefm
           media_content_type: 'audio/mp3'   
           
@@ -118,10 +118,10 @@ automation:
     action:
       - service: media_player.media_stop
         data:
-          entity_id: media_player.zonacentral
+          entity_id: media_player.boxhall
       - service: media_player.play_media
         data:
-          entity_id: media_player.zonacentral
+          entity_id: media_player.boxhall
           media_content_id: http://mcrscast.mcr.iol.pt/comercial.mp3
           media_content_type: 'audio/mp3'  
 
@@ -133,10 +133,10 @@ automation:
     action:
       - service: media_player.media_stop
         data:
-          entity_id: media_player.zonacentral
+          entity_id: media_player.boxhall
       - service: media_player.play_media
         data:
-          entity_id: media_player.zonacentral
+          entity_id: media_player.boxhall
           media_content_id: http://centova.radios.pt:9478/stream/1/ 
           media_content_type: 'audio/mp3'  
            
@@ -148,10 +148,10 @@ automation:
     action:
       - service: media_player.media_stop
         data:
-          entity_id: media_player.zonacentral
+          entity_id: media_player.boxhall
       - service: media_player.play_media
         data:
-          entity_id: media_player.zonacentral
+          entity_id: media_player.boxhall
           media_content_id: http://19553.live.streamtheworld.com:3690/RFM_SC 
           media_content_type: 'audio/mp3'          
              
@@ -163,10 +163,10 @@ automation:
     action:
       - service: media_player.media_stop
         data:
-          entity_id: media_player.zonacentral
+          entity_id: media_player.boxhall
       - service: media_player.play_media
         data:
-          entity_id: media_player.zonacentral
+          entity_id: media_player.boxhall
           media_content_id: http://19593.live.streamtheworld.com:80/RADIO_RENASCENCA_SC 
           media_content_type: 'audio/mp3'              
 
@@ -179,10 +179,10 @@ automation:
     action:
       - service: media_player.media_stop
         data:
-          entity_id: media_player.zonacentral
+          entity_id: media_player.boxhall
       - service: media_player.play_media
         data:
-          entity_id: media_player.zonacentral
+          entity_id: media_player.boxhall
           media_content_id: http://19553.live.streamtheworld.com:80/OCEANPACIFIC_SC  
           media_content_type: 'audio/mp3'  
 
@@ -194,10 +194,10 @@ automation:
     action:
       - service: media_player.media_stop
         data:
-          entity_id: media_player.zonacentral
+          entity_id: media_player.boxhall
       - service: media_player.play_media
         data:
-          entity_id: media_player.zonacentral
+          entity_id: media_player.boxhall
           media_content_id: http://tsfdirecto.tsf.pt/tsfdirecto.mp3  
           media_content_type: 'audio/mp3'  
 
@@ -209,10 +209,10 @@ automation:
     action:
       - service: media_player.media_stop
         data:
-          entity_id: media_player.zonacentral
+          entity_id: media_player.boxhall
       - service: media_player.play_media
         data:
-          entity_id: media_player.zonacentral
+          entity_id: media_player.boxhall
           media_content_id: http://radiocast.rtp.pt/antena180a.mp3  
           media_content_type: 'audio/mp3'  
           
@@ -224,10 +224,10 @@ automation:
     action:
       - service: media_player.media_stop
         data:
-          entity_id: media_player.zonacentral
+          entity_id: media_player.boxhall
       - service: media_player.play_media
         data:
-          entity_id: media_player.zonacentral
+          entity_id: media_player.boxhall
           media_content_id: http://radiocast.rtp.pt/antena180a.mp3  
           media_content_type: 'audio/mp3'  
           
@@ -240,10 +240,10 @@ automation:
     action:
       - service: media_player.media_stop
         data:
-          entity_id: media_player.zonacentral
+          entity_id: media_player.boxhall
       - service: media_player.play_media
         data:
-          entity_id: media_player.zonacentral
+          entity_id: media_player.boxhall
           media_content_id: http://radiocast.rtp.pt/antena380a.mp3  
           media_content_type: 'audio/mp3'  
 
@@ -256,10 +256,10 @@ automation:
     action:
       - service: media_player.media_stop
         data:
-          entity_id: media_player.zonacentral
+          entity_id: media_player.boxhall
       - service: media_player.play_media
         data:
-          entity_id: media_player.zonacentral
+          entity_id: media_player.boxhall
           media_content_id: http://suaradio1.dyndns.ws:10308/stream  
           media_content_type: 'audio/mp3'  
           
@@ -271,10 +271,10 @@ automation:
     action:
       - service: media_player.media_stop
         data:
-          entity_id: media_player.zonacentral
+          entity_id: media_player.boxhall
       - service: media_player.play_media
         data:
-          entity_id: media_player.zonacentral
+          entity_id: media_player.boxhall
           media_content_id: http://mcrscast.mcr.iol.pt/m80   
           media_content_type: 'audio/mp3'  
 
@@ -286,10 +286,10 @@ automation:
     action:
       - service: media_player.media_stop
         data:
-          entity_id: media_player.zonacentral
+          entity_id: media_player.boxhall
       - service: media_player.play_media
         data:
-          entity_id: media_player.zonacentral
+          entity_id: media_player.boxhall
           media_content_id: http://stm15.conectastm.com:30890/live  
           media_content_type: 'audio/mp3'  
 
@@ -301,10 +301,10 @@ automation:
     action:
       - service: media_player.media_stop
         data:
-          entity_id: media_player.zonacentral
+          entity_id: media_player.boxhall
       - service: media_player.play_media
         data:
-          entity_id: media_player.zonacentral
+          entity_id: media_player.boxhall
           media_content_id: http://mcrscast.mcr.iol.pt/smoothfm
           media_content_type: 'audio/mp3'       
 
@@ -316,10 +316,10 @@ automation:
     action:
       - service: media_player.media_stop
         data:
-          entity_id: media_player.zonacentral
+          entity_id: media_player.boxhall
       - service: media_player.play_media
         data:
-          entity_id: media_player.zonacentral
+          entity_id: media_player.boxhall
           media_content_id: http://centova.radios.pt:8497/stream/1/
           media_content_type: 'audio/mp3'       
           
@@ -339,11 +339,11 @@ sensor:
       zonacentral:  
         friendly_name: 'Sistema de Som'
         value_template: >    
-         {%- if is_state('media_player.zonacentral', 'off') -%}
+         {%- if is_state('media_player.boxhall', 'off') -%}
          Sistema Desactivado
-         {%- elif is_state('media_player.zonacentral', 'idle') -%}
+         {%- elif is_state('media_player.boxhall', 'idle') -%}
          Pronto para reproduzir
-         {%- elif is_state('media_player.zonacentral', 'playing') -%}
+         {%- elif is_state('media_player.boxhall', 'playing') -%}
          A reproduzir         
          {%- endif -%}
 ###############################################################################
