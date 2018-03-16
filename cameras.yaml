@@ -1,13 +1,14 @@
 - name: rodolfo_cam
   platform: generic
-  still_image_url: https://maps.googleapis.com/maps/api/staticmap?center={{ states.device_tracker.rodolfo.attributes.latitude }},{{ states.device_tracker.rodolfo.attributes.longitude }}&zoom=16&size=500x500&maptype=roadmap&markers=color:green%7Clabel:JA%7C{{ states.device_tracker.rodolfo.attributes.latitude }},{{ states.device_tracker.rodolfo.attributes.longitude }}
+  still_image_url: https://maps.googleapis.com/maps/api/staticmap?center={{ states.device_tracker.rodolfo.attributes.latitude }},{{ states.device_tracker.rodolfo.attributes.longitude }}&zoom=16&size=500x500&maptype=satellite&markers=color:green%7Clabel:JA%7C{{ states.device_tracker.rodolfo.attributes.latitude }},{{ states.device_tracker.rodolfo.attributes.longitude }}
   limit_refetch_to_url_change: true
   
 - name: paula_cam
   platform: generic
-  still_image_url: https://maps.googleapis.com/maps/api/staticmap?center={{ states.device_tracker.paula.attributes.latitude }},{{ states.device_tracker.paula.attributes.longitude }}&zoom=16&size=500x500&maptype=roadmap&markers=color:green%7Clabel:JA%7C{{ states.device_tracker.paula.attributes.latitude }},{{ states.device_tracker.paula.attributes.longitude }}
+  still_image_url: https://maps.googleapis.com/maps/api/staticmap?center={{ states.device_tracker.paula.attributes.latitude }},{{ states.device_tracker.paula.attributes.longitude }}&zoom=16&size=500x500&maptype=satellite&markers=color:green%7Clabel:JA%7C{{ states.device_tracker.paula.attributes.latitude }},{{ states.device_tracker.paula.attributes.longitude }}
   limit_refetch_to_url_change: true
-
+  
+  
 - name: Ponte 25 Abril Norte  
   platform: generic
   still_image_url: https://www.lusoponte.pt/assets/cam1_P25_00001.jpg
