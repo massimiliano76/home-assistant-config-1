@@ -173,15 +173,18 @@ sensor:
 switch:
   
 #Switch Candeiro Sofá   
+
   - platform: mqtt
     name: "Candeiro Sofá"
     state_topic: "stat/sonoff/POWER"
-    command_topic: "cmnd/sonoff/power"
+    command_topic: "cmnd/sonoff/POWER"
+    availability_topic: "tele/sonoff/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
     qos: 1
     payload_on: "ON"
     payload_off: "OFF"
-    retain: true
-    
+    retain: true    
     
   - platform: broadlink
     host: 192.168.1.100
@@ -217,3 +220,32 @@ binary_sensor:
     entities:
       - device_tracker.homecinema
       - device_tracker.tvsala
+      
+###############################################################################
+#                                                                             #
+#                           M E D I A  _ P L A Y E R                          #
+#                                                                             #
+###############################################################################   
+       
+media_player:
+
+  - platform: mediaroom
+    host: 192.168.1.64
+    name: "Box Sala"
+#    optimistic: True
+
+
+  - platform: panasonic_viera
+    host: 192.168.1.73
+    
+###############################################################################
+#                                                                             #
+#                           I M P R E S S O R A   3 D                         #
+#                                                                             #
+###############################################################################      
+    
+octoprint:
+  host: 192.168.1.101
+  api_key: !secret api_impressora3d
+  bed: true
+  number_of_tools: 1
