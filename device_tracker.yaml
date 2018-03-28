@@ -1,5 +1,3 @@
-- platform: gpslogger
-
 - platform: mqtt_json
   devices:
    rodolfo: zanzito/rodolfo/location
