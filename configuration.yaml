@@ -54,58 +54,12 @@ input_boolean: !include input_booleans.yaml
 zone: !include zones.yaml
 camera: !include cameras.yaml
 input_select: !include input_select.yaml
-#automation: !include automation.yaml
+script: !include script.yaml
 proximity: !include_dir_merge_named proximity
 history_graph: !include history_graph.yaml
 
 
 
-
-
-#telegram_bot:
-#  platform: polling
-#  api_key: !secret api_key_telegram
-#  allowed_chat_ids:
-#    - !secret chatid01
-#    - !secret chatid02
-#    - !secret chatid03
-    
-android_ip_webcam:
-  - name: 'Porta Escada'
-    host: 192.168.1.89
-
-
-
-      
-media_player:
-  - platform: mediaroom
-    host: 192.168.1.64
-    name: "Box Sala"
-#    optimistic: True
-    
-    
-  - platform: mediaroom
-    host: 192.168.1.92
-    name: "Box Quarto Bia"
-#    optimistic: True
-    
-    
-  - platform: kodi
-    name: boxhall
-    host: 192.168.1.112
-    port: 8080
-    username: root
-    password: root
-
-    
-  - platform: panasonic_viera
-    host: 192.168.1.73
-
-octoprint:
-  host: 192.168.1.101
-  api_key: !secret api_impressora3d
-  bed: true
-  number_of_tools: 1
     
 
 map:
@@ -114,7 +68,6 @@ sun:
 conversation:
 logger:
   default: debug
-
 recorder:
 history:
 #logbook:
