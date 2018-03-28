@@ -199,12 +199,14 @@ automation:
       entity_id: sensor.octoprint_job_percentage 
       above: 50
     action:
-      - service: notify.pushnotification_meu_telemovel
+      - service: notify.telegram
         data:
-          title: 'Impressora 3d'
-          message: 'A impressão chegou aos 50%'
+          title: ""
+          message: ""
           data:
-            url: http://192.168.1.239:81/snapshot.cgi?user=admin&pwd=   
+            photo:
+              url: http://192.168.1.239:81/snapshot.cgi?user=admin&pwd=admin  
+              caption: "A impressão chegou aos 50%"              
 
 
 #Informa o utilizador enviando uma notificação com foto que a impressão chegou ao fim e desliga a impressora passado 2 min.      
@@ -215,12 +217,14 @@ automation:
       from: 'Printing'
       to: 'Operational'
     action:
-      - service: notify.pushnotification_meu_telemovel
+      - service: notify.telegram
         data:
-          title: 'Impressora 3d'
-          message: 'A impressão chegou ao fim'
+          title: ""
+          message: ""
           data:
-            url: http://192.168.1.239:81/snapshot.cgi?user=admin&pwd= 
+            photo:
+              url: http://192.168.1.239:81/snapshot.cgi?user=admin&pwd=admin
+              caption: "A impressão chegou ao fim"                
       - delay:
           minutes: 2   
       - service: input_boolean.turn_off
