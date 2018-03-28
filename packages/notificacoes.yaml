@@ -32,13 +32,21 @@ automation:
       data:
         topic: home/433toMQTT
         payload: 10340193off
-        retain: 'true'
-    - service: notify.pushnotification
-      data:
-        title: 'Campainha Porta de Casa'
-        message: 'Tocou no dia {{states.sensor.date.state}} às {{states.sensor.time.state}}'
+        retain: 'true'        
+    - service: notify.geraltelegram
+      data_template:
+        message: ""
+        title: ""
         data:
-          url: http://192.168.1.89:8080/photo.jpg
+          photo:
+            url: http://192.168.1.89:8080/photo.jpg
+            caption: "Tocaram na campainha da escada"
+#    - service: notify.pushnotification
+#      data:
+#        title: 'Campainha Porta de Casa'
+#        message: 'Tocou no dia {{states.sensor.date.state}} às {{states.sensor.time.state}}'
+#        data:
+#          url: http://192.168.1.89:8080/photo.jpg
 #    - service: notify.geralzanzito
 #      data:
 #        message: "tocou no dia {{states.sensor.date.state}} às {{states.sensor.time.state}}"
@@ -53,12 +61,16 @@ automation:
       at: '07:40:00'
       platform: time
     action:
-      - service: notify.pushnotification
+      - service: notify.geraltelegram
         data_template:
           title: 'Meteorologia'
-          message: "Bom dia , estão {{ states.sensor.temperatura_em_casa.state }} graus em casa. Hoje o céu está {{ states.sensor.estadodotempo.state }} estão neste momento {{ states.sensor.dark_sky_temperature.state }} graus , e {{ states.sensor.dark_sky_humidity.state }}% de humidade. A temperatura máxima vai ser de {{ states.sensor.dark_sky_daily_high_temperature.state }} graus e {{ states.sensor.dark_sky_daily_low_temperature.state }} graus de mínima. Existe {{ states.sensor.dark_sky_precip_probability.state }}% de probabilidade de chover hoje.{% if states('sensor.dark_sky_precip_probability') | int > 50 %} Não te esqueças de levar o chapéu de chuva. Tem um bom dia chuvoso ;){% else %} Tem um bom dia.{% endif %}"
-          data:
-            icon: /local/meteo.png    
+          message: "Bom dia , estão {{ states.sensor.temperatura_em_casa.state }} graus em casa. Hoje o céu está {{ states.sensor.estadodotempo.state }} estão neste momento {{ states.sensor.dark_sky_temperature.state }} graus , e {{ states.sensor.dark_sky_humidity.state }}% de humidade. A temperatura máxima vai ser de {{ states.sensor.dark_sky_daily_high_temperature.state }} graus e {{ states.sensor.dark_sky_daily_low_temperature.state }} graus de mínima. Existe {{ states.sensor.dark_sky_precip_probability.state }}% de probabilidade de chover hoje.{% if states('sensor.dark_sky_precip_probability') | int > 50 %} Não te esqueças de levar o chapéu de chuva. Tem um bom dia chuvoso ;){% else %} Tem um bom dia.{% endif %}"   
+#      - service: notify.pushnotification
+#        data_template:
+#          title: 'Meteorologia'
+#          message: "Bom dia , estão {{ states.sensor.temperatura_em_casa.state }} graus em casa. Hoje o céu está {{ states.sensor.estadodotempo.state }} estão neste momento {{ states.sensor.dark_sky_temperature.state }} graus , e {{ states.sensor.dark_sky_humidity.state }}% de humidade. A temperatura máxima vai ser de {{ states.sensor.dark_sky_daily_high_temperature.state }} graus e {{ states.sensor.dark_sky_daily_low_temperature.state }} graus de mínima. Existe {{ states.sensor.dark_sky_precip_probability.state }}% de probabilidade de chover hoje.{% if states('sensor.dark_sky_precip_probability') | int > 50 %} Não te esqueças de levar o chapéu de chuva. Tem um bom dia chuvoso ;){% else %} Tem um bom dia.{% endif %}"
+#          data:
+#            icon: /local/meteo.png    
       
 #Notifica os utilizadores da Casa se existe nova correspondência na caixa do correio.
   - alias: Notificacao Novo Correio
@@ -73,12 +85,16 @@ automation:
         topic: home/433toMQTT
         payload: 1035062off
         retain: 'true'
-    - service: notify.pushnotification
+    - service: notify.geraltelegram
       data_template:
         title: 'Novo Correio Recebido'
         message: "Dia {{states.sensor.date.state}} às {{states.sensor.time.state}}"
-        data:
-          icon: /local/ctt.png
+#    - service: notify.pushnotification
+#      data_template:
+#        title: 'Novo Correio Recebido'
+#        message: "Dia {{states.sensor.date.state}} às {{states.sensor.time.state}}"
+#        data:
+#          icon: /local/ctt.png
           
 #Notifica os utilizadores quando a porta da rua tocou.
   - alias: Notificacao utilizadores porta rua
@@ -93,14 +109,54 @@ automation:
           gw_mac: 34:CE:00:91:E2:E0
           ringtone_id: 10
           ringtone_vol: 30
-      - service: notify.pushnotification
-        data_template:
+#      - service: notify.pushnotification
+#        data_template:
+#          title: 'Alguem tocou na campainha da rua'
+#          message: "Dia {{states.sensor.date.state}} às {{states.sensor.time.state}}"
+#          data:
+#            icon: /local/campainha.png
+      - service: notify.geraltelegram
+        data:
           title: 'Alguem tocou na campainha da rua'
-          message: "Dia {{states.sensor.date.state}} às {{states.sensor.time.state}}"
+          message: 'Queres abrir a porta?'
           data:
-            icon: /local/campainha.png
+            inline_keyboard:
+              - "SIM:/simquero"
+              - "NÃO:/naoquero"
           
-
+  - alias: Resposta a sim da abertura automatica da porta
+    hide_entity: false
+    trigger:
+      platform: event
+      event_type: telegram_callback
+      event_data:
+        data: '/simquero'            
+    action:
+      - service: mqtt.publish
+        data:
+          topic: /interruptor/set
+          payload: 1
+      - delay: 00:00:01
+      - service: mqtt.publish
+        data:
+          topic: /interruptor/set
+          payload: 0
+          retain: 'true'
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.porta_rua
+        
+  - alias: 'Resposta a nao da abertura automatica da porta'
+    hide_entity: true
+    trigger:
+      platform: event
+      event_type: telegram_callback
+      event_data:
+        data: '/naoquero'
+    action:
+      - service: telegram_bot.answer_callback_query
+        data_template:
+          callback_query_id: '{{ trigger.event.data.id }}'
+          message: 'Ok, não abrir.'
                     
 
 #Informa os utilizadores se a porta de casa foi aberta. 
@@ -116,12 +172,16 @@ automation:
           payload: 11768071off
           retain: 'true'
           topic: home/433toMQTT
-      - service: notify.pushnotification
+      - service: notify.telegram
         data_template:
           title: 'Porta de Casa Aberta'
-          message: "Dia {{states.sensor.date.state}} às {{states.sensor.time.state}}"
-          data:
-            icon: /local/porta.png
+          message: "Dia {{states.sensor.date.state}} às {{states.sensor.time.state}}" 
+#      - service: notify.pushnotification
+#        data_template:
+#          title: 'Porta de Casa Aberta'
+#          message: "Dia {{states.sensor.date.state}} às {{states.sensor.time.state}}"
+#          data:
+#            icon: /local/porta.png
   
 
           
@@ -134,7 +194,7 @@ automation:
       - condition: template
         value_template: "{{ trigger.to_state.state != 'None' }}"
     action:
-      - service: notify.pushnotification_meu_telemovel
+      - service: notify.telegram
         data_template:
           title: "Tentativa de Ataque Home Assistant"
           message: "{{ states.persistent_notification.httplogin.attributes.message }}"
@@ -157,30 +217,6 @@ automation:
         title: "O ip da Vodafone foi alterado"
         message: "O ip da Vodafone agora é {{ states('sensor.myipopendnscom') }}"
            
-
-                   
- 
-
-
-  - alias: teste pushnotification1
-    trigger:
-      platform: event
-      event_type: html5_notification.clicked
-      event_data:
-        action: teste1
-    action: 
-      service: switch.turn_on   
-      entity_id: switch.candeiro_sofa
-   
-  - alias: teste pushnotification2
-    trigger:
-      platform: event
-      event_type: html5_notification.clicked
-      event_data:
-        action: teste2
-    action: 
-      service: switch.turn_off 
-      entity_id: switch.candeiro_sofa 
       
       
 #Beatriz
@@ -245,32 +281,7 @@ automation:
         data:
           entity_id: input_boolean.tv_cozinha
            
-          
-          
-          
-          
-#      - service_template: >
-#           {% if is_state('switch.radio', 'on') %}
-#           switch.turn_off
-#           {% endif %}
-#      entity_id: switch.radio  
-#     - service_template: >
-#       {% if is_state('binary_sensor.tv_cozinha', 'on') %}
-#       homeassistant.turn_off
-#       {% endif %}
-#       entity_id: input_boolean.tv_cozinha
-#     - service_template: >
-#       {% if is_state('switch.luz_casa_de_banho', 'on') %}
-#       switch.turn_off
-#       {% endif %}
-#       entity_id: switch.luz_casa_de_banho 
-   
-  
-    
- 
-       
-       
-       
+
 
 #Informa o Dono da Casa se os artigos da Gearbest que definiu, se os mesmos automentaram de preço ou baixaram.
 #  - alias: "Gearbest"
@@ -337,34 +348,50 @@ binary_sensor:
 #                                                                             #
 ###############################################################################  
 
-notify:
- 
-#  - name: telegram
-#    platform: telegram
-#    chat_id: !secret chatid01
-  
-#  - name: telegramp
-#    platform: telegram
-#    chat_id: !secret chatid02
 
-  - name: rodolfozanzito
-    platform: zanzito
-    device-name: rodolfo
+
+telegram_bot:
+  platform: polling
+  api_key: !secret api_key_telegram
+  allowed_chat_ids:
+    - !secret chatid01
+    - !secret chatid02
+
+ 
+notify:
+
+  - name: telegram
+    platform: telegram
+    chat_id: !secret chatid01
+  
+  - name: telegramp
+    platform: telegram
+    chat_id: !secret chatid02
+
+#  - name: rodolfozanzito
+#    platform: zanzito
+#    device-name: rodolfo
     
-  - name: paulazanzito
-    platform: zanzito
-    device-name: paula
+#  - name: paulazanzito
+#    platform: zanzito
+#    device-name: paula
     
-  - name: geralzanzito
+#  - name: geralzanzito
+#    platform: group
+#    services: 
+#      - service: rodolfozanzito
+#      - service: paulazanzito
+      
+  - name: geraltelegram
     platform: group
     services: 
-      - service: rodolfozanzito
-      - service: paulazanzito
+      - service: telegram
+      - service: telegramp
       
   
-  - name: pushnotification
-    platform: html5
-    gcm_api_key: 'AAAAp7bpVzE:APA91bGLffQnMbcBaJgBz5ZwBkx5ASStBQAjlN4vxjqfqL5nCOT0rcroPwJnxaPlQidxsVyaFUbHrIg3q88b_ZGvTYcMyRvk3tfbKzUDOQP3Zfx6H_jO3vgPQC5BsK-F2itFEO5I8P7e'
-    gcm_sender_id: '720328283953'
+#  - name: pushnotification
+#    platform: html5
+#    gcm_api_key: !secret gcm_api_key_api
+#    gcm_sender_id: !secret gcm_sender_id_Id
     
 
