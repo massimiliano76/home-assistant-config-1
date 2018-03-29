@@ -415,6 +415,7 @@ group:
 
   radio:
     name: Rádio
+    control: hidden
     entities:
       - sensor.zonacentral
       - input_select.estacoes_de_radio

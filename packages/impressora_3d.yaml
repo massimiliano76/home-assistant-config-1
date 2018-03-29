@@ -43,15 +43,14 @@ group:
 
   impressora3d:
     view: yes
-    name: Quarto da Bia
-    icon: mdi:printer-3d
+    name: IMPRESSORA 3D
     entities:
-    - group.impressora_3d
+      - group.impressora_3d
     
     
   impressora_3d:
-    name: Creality Ender 2
-    icon: mdi:printer-3d
+    control: hidden
+    name: Impressora 3D
     entities:
       - input_boolean.impressora3d
       - camera.impressora_3d

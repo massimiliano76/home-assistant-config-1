@@ -1,0 +1,13 @@
+
+telegram:
+  sequence:
+    service: notify.telegram
+    data:
+      title: "Send a video"
+      message: "That's an example that sends a video."
+      data:
+        video:
+          url: http://192.168.1.239:81/video.cgi?
+          username: "admin"
+          password: "admin"
+

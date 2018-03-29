@@ -1,99 +1,255 @@
 homeassistant:
 
-      
+
+          
 
 
-
-
-automation:   
 
 ##          {% if states.light.ledentrada.attributes.rgb_color ~'' == "(255, 255, 255)" %}
        
+#  alias: 'Notificador de portas janelas abertas'
+#  initial_state: 'on'
+#  trigger:
+#    platform: state
+#    entity_id: input_boolean.proximity
+#    from: 'off'
+#    to: 'on'
+#  condition:
+#    condition: state
+#    entity_id: group.sensoresportajanela
+#    state: 'on'
+#  action:
+#    - service: notify.luiszanzito
+#      data:
+#        title: "Home Assistant"
+#        message: >
+#         {%- if states.binary_sensor.door_window_sensor_158d00018354d0.state  == "on" -%}
+#         {% if doors | trim != "" %}
+#         {%- set doors = doors ~ "a porta cozinha " -%}
+#         {% else %}
+#         {%- set doors = doors ~ "porta cozinha " -%}
+#         {% endif %}
+#         {%- endif -%}
+#              
+#         {%- if states.binary_sensor.door_window_sensor_158d0001d399b1.state  == "on" -%}
+#         {% if doors | trim != "" %}
+#         {%- set doors = doors ~ "a porta esquerda " -%}
+#         {% else %}
+#         {%- set doors = doors ~ "porta esquerda " -%}
+#         {% endif %}
+#         {%- endif -%}  
+#         
+#         {%- if states.binary_sensor.door_window_sensor_158d0001d39ff1.state == "on" -%}
+#         {% if doors | trim != "" %}
+#         {%- set doors = doors ~ "a porta direita " -%}
+#         {% else %}
+#         {%- set doors = doors ~ "porta direita " -%}
+#         {% endif %}
+#         {%- endif -%}
+#         
+#         {%- if states.binary_sensor.door_window_sensor_158d00015a954e.state == "on"  -%}
+#         {% if doors | trim != "" %}
+#         {%- set doors = doors ~ "a porta principal " -%}
+#         {% else %}
+#         {%- set doors = doors ~ "porta principal " -%}
+#         {% endif %}
+#         {%- endif -%}
+#         
+#         {%- if states.binary_sensor.door_window_sensor_158d0001d86c17.state == "on"  -%}
+#         {% if doors | trim != "" %}
+#         {%- set doors = doors ~ "a cancela grande " -%}
+#         {% else %}
+#         {%- set doors = doors ~ "cancela grande " -%}
+#         {% endif %}
+#         {%- endif -%}
+#         A/s {{ doors}} {%- if 'a' in doors -%} estão {%- else %} está {%- endif %} aberta/s. O Alarme não pode ser ativo.
+#         
+#         
+#         
+#sensoresportajanela:
+#  name: Notificaportasjanelas
+#  entities:
+#    - binary_sensor.door_window_sensor_158d00018354d0
+#    - binary_sensor.door_window_sensor_158d0001d399b1 
+#    - binary_sensor.door_window_sensor_158d0001d39ff1 
+#    - binary_sensor.door_window_sensor_158d00015a954e 
+#    - binary_sensor.door_window_sensor_158d0001d86c17    
+#  
 
- 
 
-  
+#  alias: Front Door Motion Counter While Away
+#  initial_state: 'on'
+#  trigger:
+#    platform: state
+#    entity_id: input_boolean.teste1
+#    to: 'on'
+#  action:
+#    - service: counter.increment
+#      entity_id: counter.meucontador
+#    
+#             
+#  
 script:
-
-  
-  xiaomi_som:
-    sequence:
-      - service: xiaomi_aqara.play_ringtone
-        data:
-          gw_mac: 34:CE:00:91:E2:E0
-          ringtone_id: 20
-          ringtone_vol: 30
-          
-  xiaomi_luz:
-    sequence:
-      - service: homeassistant.turn_on
-        data:
-          entity_id: light.gateway_light_34ce0091e2e0
-          color_name: limegreen
-          brightness: 81
-          
-  xiaomi_luz1:
-    sequence:
-      - service: homeassistant.turn_on
-        data:
-          entity_id: light.gateway_light_34ce0091e2e0
-          rgb_color: [255, 0, 0]     ##cor vermelha
-          brightness: 81
-          
-  zanzito:
-    sequence:
-      - service: mqtt.publish
-        data_template:
-          topic: zanzito/googlehome/say
-          payload: "O preço do artigo {{states.sensor.gateway_xiaomi.name}} é de agora: {{ states.sensor.gateway_xiaomi.state }}"
-  
-  push:
-    sequence:       
-      service: notify.pushnotification_meu_telemovel
-      data:
-        title: 'Impressora 3d'
-        message: 'A impressão chegou aos 50%'
-        data:
-         # tag: alert
-          url: http://192.168.1.239:81/snapshot.cgi?user=admin&pwd=
-          
-          
-  push2:
-    sequence: 
-      - service: notify.pushnotification
-        data_template:
-          title: 'Novo Correio Recebido'
-          message: "Dia {{states.sensor.date.state}} às {{states.sensor.time.state}}"
-          target: ["MEUPC", "MEU_TELEMOVEL"]
-               
-          #data:
-          #  actions:
-          #    - action: "teste1"
-          #      title: "Ligar Cerebro"
-          #    - action: "teste2"
-          #      title: "Desligar Cerebro"
-          #  icon: /local/ctt.png
-          
-  zanzitoteste:   
+#  telegram:
+#    sequence:
+#      - service: notify.telegram
+#        data_template:
+#          message: "xxxx"
+#          title: "xxxxx"
+#          data:
+#            photo:
+#              url: http://192.168.1.239:81/snapshot.cgi?user=admin&pwd= 
+#              caption: "Dia {{states.sensor.date.state}} às {{states.sensor.time.state}}"
+#     
+  telegram1: 
     sequence:  
-      - service: mqtt.publish
-        data:
-         topic: zanzito/rodolfo/set_prefs
-         payload_template: '{"location_high_precision":true}}'
-          
-          
-          
-          
-          
-          
-  google:
-    sequence:
-      - service: tts.google_say
-        entity_id: media_player.boxhall
+      - service: telegram_bot.send_message
         data_template:
-          message: "Bom dia , estão {{ states.sensor.temperatura_em_casa.state | int }} graus em casa. Hoje o céu está {{ states.sensor.estadodotempo.state }} estão neste momento {{ states.sensor.dark_sky_temperature.state  | int }} graus , e {{ states.sensor.dark_sky_humidity.state | int }}% de humidade. A temperatura máxima vai ser de {{ states.sensor.dark_sky_daily_high_temperature.state | int}} graus e {{ states.sensor.dark_sky_daily_low_temperature.state | int}} graus de mínima. Existe {{ states.sensor.dark_sky_precip_probability.state | int}}% de probabilidade de chover hoje.{% if states('sensor.dark_sky_precip_probability') | int > 50 %} Não te esqueças de levar o chapéu de chuva. Tem um bom dia chuvoso ;){% else %} Tem um bom dia.{% endif %}"
+          title: 'Want pizza?'
+          target: [349300993]
+          message: 'You look like you are home alone. Should I order you a pizza?'
+          disable_notification: true
+          inline_keyboard:
+            - "Gimme Pizza:/gimmepizza"
+            - "No thanks:/nopizza"
+            
+  telegram3: 
+   sequence:  
+     - service: notify.telegram
+       data:
+         title: 'DOOR'
+         message: 'DO YOU WANT OPEN DOOR?'
+         data:
+           inline_keyboard:
+             - "YES:/yesiwant"
+             - "NO thanks:/nowant"
+           
+           
+           
 
-  
           
           
-  
+
+#
+#  
+#  xiaomi_som:
+#    sequence:
+#      - service: xiaomi_aqara.play_ringtone
+#        data:
+#          gw_mac: 34:CE:00:91:E2:E0
+#          ringtone_id: 20
+#          ringtone_vol: 30
+#          
+#  xiaomi_luz:
+#    sequence:
+#      - service: homeassistant.turn_on
+#        data:
+#          entity_id: light.gateway_light_34ce0091e2e0
+#          color_name: limegreen
+#          brightness: 81
+#          
+#  xiaomi_luz1:
+#    sequence:
+#      - service: homeassistant.turn_on
+#        data:
+#          entity_id: light.gateway_light_34ce0091e2e0
+#          rgb_color: [255, 0, 0]     ##cor vermelha
+#          brightness: 81
+#          
+#  zanzito:
+#    sequence:
+#      - service: mqtt.publish
+#        data_template:
+#          topic: zanzito/googlehome/say
+#          payload: "O preço do artigo {{states.sensor.gateway_xiaomi.name}} é de agora: {{ states.sensor.gateway_xiaomi.state }}"
+#  
+#  push:
+#    sequence:       
+#      service: notify.pushnotification_meu_telemovel
+#      data:
+#        title: 'Impressora 3d'
+#        message: 'A impressão chegou aos 50%'
+#        data:
+#         # tag: alert
+#          url: http://192.168.1.239:81/snapshot.cgi?user=admin&pwd=
+#          
+#          
+#  push2:
+#    sequence: 
+#      - service: notify.pushnotification
+#        data_template:
+#          title: 'Novo Correio Recebido'
+#          message: "Dia {{states.sensor.date.state}} às {{states.sensor.time.state}}"
+#          target: ["MEUPC", "MEU_TELEMOVEL"]
+#               
+#          #data:
+#          #  actions:
+#          #    - action: "teste1"
+#          #      title: "Ligar Cerebro"
+#          #    - action: "teste2"
+#          #      title: "Desligar Cerebro"
+#          #  icon: /local/ctt.png
+#          
+#  zanzitoteste:   
+#    sequence:  
+#      - service: mqtt.publish
+#        data:
+#         topic: zanzito/rodolfo/set_prefs
+#         payload_template: '{"location_high_precision":true}}'
+#          
+#          
+#          
+#          
+#          
+#          
+#  google:
+#    sequence:
+#      - service: tts.google_say
+#        entity_id: media_player.boxhall
+#        data_template:
+#          message: "Bom dia , estão {{ states.sensor.temperatura_em_casa.state | int }} graus em casa. Hoje o céu está {{ states.sensor.estadodotempo.state }} estão neste momento {{ states.sensor.dark_sky_temperature.state  | int }} graus , e {{ states.sensor.dark_sky_humidity.state | int }}% de humidade. A temperatura máxima vai ser de {{ states.sensor.dark_sky_daily_high_temperature.state | int}} graus e {{ states.sensor.dark_sky_daily_low_temperature.state | int}} graus de mínima. Existe {{ states.sensor.dark_sky_precip_probability.state | int}}% de probabilidade de chover hoje.{% if states('sensor.dark_sky_precip_probability') | int > 50 %} Não te esqueças de levar o chapéu de chuva. Tem um bom dia chuvoso ;){% else %} Tem um bom dia.{% endif %}"
+#
+#  
+#input_boolean:
+#   
+#  teste1:
+#    name: teste1
+#    initial: off             
+#          
+#  teste2:
+#    name: teste2
+#    initial: off 
+#    
+#  teste3:
+#    name: teste3
+#    initial: off 
+#    
+#    
+#counter:
+#  meucontador:
+#    step: 1
+#  
+#sensor:
+#  
+#  - platform: template
+#    sensors:
+#      testecontador:
+#        friendly_name: "testecontador"
+#        value_template: >-
+#         {% if is_state('counter.meucontador', '0') %}
+#          Aberto: {{ states.counter.meucontador.state }} vezes
+#         {%- elif is_state('counter.meucontador', '1') -%}
+#          Aberto: {{ states.counter.meucontador.state }} vez
+#         {% elif states.counter.meucontador.state | int >= 2 %}
+#          Aberto: {{ states.counter.meucontador.state }} vezes
+#         {%- endif -%} 
+#       
+binary_sensor:
+
+  - platform: mqtt
+    state_topic: "room/motion"
+    name: "sensor de teste"
+    qos: 0
+    payload_on: "YES"
+    payload_off: "NO"
+    device_class: motion

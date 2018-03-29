@@ -197,6 +197,9 @@ switch:
     name: "Luz Casa de Banho"
     state_topic: "stat/sonoffwcluz/POWER"
     command_topic: "cmnd/sonoffwcluz/power"
+    availability_topic: "tele/sonoffwcluz/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
     qos: 1
     payload_on: "ON"
     payload_off: "OFF"
@@ -207,6 +210,9 @@ switch:
     name: "Rádio"
     state_topic: "stat/sonoff69/POWER"
     command_topic: "cmnd/sonoff69/power"
+    availability_topic: "tele/sonoff69/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
     qos: 1
     payload_on: "ON"
     payload_off: "OFF"
@@ -269,12 +275,27 @@ input_boolean:
   
 ###############################################################################
 #                                                                             #
-#                           I N P U T   DATE_TIME                             #
+#                           G R O U P                                         #
 #                                                                             #
 ###############################################################################   
 
 
-   
+group:
+  
+  wc:
+    view: yes
+    name: CASA DE BANHO
+    control: hidden
+    entities:
+      - group.casadebanhogroup
+
+
+  casadebanhogroup:
+    control: hidden
+    name: Casa de Banho
+    entities:
+      - switch.radio
+      - switch.luz_casa_de_banho       
 
 
 

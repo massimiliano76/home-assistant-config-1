@@ -32,7 +32,7 @@
 
 - platform: mjpeg
   name: Impressora 3d
-  mjpeg_url: http://192.168.1.239:81/video.cgi?user=admin&pwd=
+  mjpeg_url: http://192.168.1.239:81/video.cgi?user=admin&pwd=admin
   
   
 

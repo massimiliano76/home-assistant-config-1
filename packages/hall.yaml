@@ -138,51 +138,32 @@ automation:
         payload: 0
         retain: 'true'
         
-#Liga o carregador do telemovel do kodi quando este esta abaixo dos 15% de bateria.
-  - alias: Carregador Telemovel Kodi
-    initial_state: true 
-    trigger:
-      platform: numeric_state
-      entity_id: sensor.google_home
-      below: 15
-    action:
-      service: switch.turn_on
-      data:
-        entity_id: switch.aromatizador
-    
-#Desliga o carregador do telemovel do kodi quando este esta acima dos dos 99% de bateria.
-  - alias: Carregador Telemovel Kodi
-    initial_state: true 
-    trigger:
-      platform: numeric_state
-      entity_id: sensor.google_home
-      above: 90
-    action:
-      service: switch.turn_off
-      data:
-        entity_id: switch.aromatizador
-    
-#Abre a porta da rua automaticamente quando chego á minha rua e quando estou próximo de casa.
-  - alias: Abrir porta da rua automaticamente
-    initial_state: true 
-    trigger:
-      platform: numeric_state
-      entity_id: proximity.rodolfo_casa
-      below: 100
-    action:
-      - service: mqtt.publish
-        data:
-          topic: /interruptor/set
-          payload: 1
-      - delay: 00:00:01
-      - service: mqtt.publish
-        data:
-          topic: /interruptor/set
-          payload: 0
-          retain: 'true'
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.porta_rua  
 
+
+#Abre a porta da rua automaticamente quando os utilizadores estão proximos de casa.
+#  - alias: Abrir porta da rua automaticamente
+#    initial_state: true 
+#    trigger:
+#      - platform: numeric_state
+#        entity_id: proximity.rodolfo_casa
+#        below: 300
+#      - platform: numeric_state
+#        entity_id: proximity.rodolfo_casa
+#        below: 300
+#    action:
+#      - service: mqtt.publish
+#        data:
+#          topic: /interruptor/set
+#          payload: 1
+#      - delay: 00:00:01
+#      - service: mqtt.publish
+#        data:
+#          topic: /interruptor/set
+#          payload: 0
+#          retain: 'true'
+#      - service: input_boolean.turn_off
+#        entity_id: input_boolean.porta_rua  
+#
       
   
 ###############################################################################
@@ -215,6 +196,9 @@ switch:
     name: "Aromatizador"
     state_topic: "stat/Sonoffaromatizador/POWER"
     command_topic: "cmnd/Sonoffaromatizador/power"
+    availability_topic: "tele/Sonoffaromatizador/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
     payload_on: "ON"
     payload_off: "OFF"
     qos: 1
@@ -252,14 +236,52 @@ input_boolean:
     name: Campainha da Rua
     icon: mdi:bell-ring
     initial: on
-    
 
+###############################################################################
+#                                                                             #
+#                         M E D I A _ P L A Y E R                             #
+#                                                                             #
+############################################################################### 
     
+media_player:
 
+  - platform: kodi
+    name: boxhall
+    host: 192.168.1.112
+    port: 8080
+    username: root
+    password: root
+    
+###############################################################################
+#                                                                             #
+#                         C A M E R A S                                       #
+#                                                                             #
+###############################################################################     
+  
+android_ip_webcam:
+  - name: 'Porta Escada'
+    host: 192.168.1.89  
     
     
-    
+###############################################################################
+#                                                                             #
+#                         G R O U P S                                         #
+#                                                                             #
+###############################################################################      
+group:
 
+  hall:
+    view: yes
+    name: HALL
+    entities:
+      - group.hallgroup
+      
+  hallgroup:
+    control: hidden
+    name: Hall
+    entities:
+      - switch.aromatizador
+      - light.gateway_light_34ce0091e2e0   
 
   
   

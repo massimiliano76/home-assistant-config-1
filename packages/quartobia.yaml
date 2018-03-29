@@ -27,20 +27,26 @@ switch:
         command_off: 'JgC8AXE5DioPDg0PDQ8OKw0PDg4ODw0PDSsODw0rDisNDw0sDSsOKw0rDisNDwwQDSwMEA0QDBAMEAwQDRAMLAwtDSsOKwwQDBANEAwQDBANEAwQDBAMEA0QDBAMEAwQDRAMEAwQDRAMEAwQDBANEAwQDBAMEA4PDSsODw0PDQ8ODg4PDQ8NAAPNcjgOKg8ODg4ODg8qDg4PDQ8NDw4OKg8ODioPKg4ODykPKg8pDyoPKg4ODw0PKg4ODw0PDg4ODg4PDQ8ODg4PDQ8ODg4ODg8NDw4ODg8NDw0PDg4ODw0PDg4ODg4PDQ8qDw0PDQ8ODioPKg4ODyoODg8NDw0PDg4ODw0PDg4ODg4PDQ8ODg4PDQ8ODg4OKg8ODioPDQ8ODg4PDQ8ODg4ODg8NDw4ODg8NDw0PDg4ODw0PDg4ODg4PDQ8ODg4PDQ8ODg4ODg8NDw4ODg8NDw0PDg4ODw0PDg4ODg4PDQ8ODg4PDQ8NDw4ODg8NDw4ODg4ODw0PDg4ODg4PDQ8ODg4PKg4qDw0PDg4ODg4PDg4ODg4ODg8ODg4NDw4ODg8NDw0PDg8NDw0rDisNKw4rDg4OKw0rDgANBQAAAAAAAAAAAAAAAA=='
         
         
-#Switch interruptor quarto bia
+
   - platform: mqtt
     name: "Interruptor Quarto Bia"
     state_topic: "stat/sonoffquartobia/POWER"
     command_topic: "cmnd/sonoffquartobia/power"
+    availability_topic: "tele/sonoffquartobia/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
     qos: 1
     payload_on: "ON"
     payload_off: "OFF"
     retain: true
 
   - platform: mqtt
-    name: "Candeiro cama Bia"
+    name: "Candeiro Cama Bia"
     state_topic: "stat/candeirobia/POWER"
     command_topic: "cmnd/candeirobia/power"
+    availability_topic: "tele/candeirobia/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
     qos: 1
     payload_on: "ON"
     payload_off: "OFF"
@@ -108,8 +114,8 @@ automation:
           minutes: 10
     condition:
       condition: time
-      after: '15:00'
-      before: '17:35'
+      after: '23:00'
+      before: '08:00'
     action:
       - service: switch.turn_off
         data:
@@ -251,6 +257,21 @@ binary_sensor:
   - platform: device_tracker_sensor
     entities:
       - device_tracker.broadlinkquartobia
+      - device_tracker.boxquartobia
+      
+  - platform: mqtt
+    name: "Sonoff Interruptor Quarto Bia"
+    state_topic: "tele/sonoffquartobia/LWT"
+    value_template: "{{ value }}"
+    payload_on: "Online"
+    payload_off: "Offline"
+    
+  - platform: mqtt
+    name: "Sonoff Candeiro Cama Bia"
+    state_topic: "tele/candeirobia/LWT"
+    value_template: "{{ value }}"
+    payload_on: "Online"
+    payload_off: "Offline"
       
       
  
@@ -262,24 +283,24 @@ binary_sensor:
 ###############################################################################       
       
 group:
-
+  
   quartobia:
     view: yes
-    name: Quarto da Bia
-    icon: mdi:face
+    name: QUARTO BIA
     entities:
-    - group.quarto_da_bia
-    
-    
-  quarto_da_bia:
-    name: Quarto da Bia
-    icon: mdi:face
+      - group.quartobiagroup
+
+  quartobiagroup:
+    control: hidden
+    name: Quarto Bia
     entities:
       - switch.interruptor_quarto_bia
+      - switch.candeiro_cama_bia
       - input_boolean.box_bia
       - climate.ar_condicionado_bia
       - input_boolean.ac_bia_off
       
+
       
 ###############################################################################
 #                                                                             #
@@ -287,6 +308,16 @@ group:
 #                                                                             #
 ###############################################################################  
 
-
+###############################################################################
+#                                                                             #
+#                           M E D I A _  P L A Y E R S                        #
+#                                                                             #
+###############################################################################  
   
 
+media_player:
+
+  - platform: mediaroom
+    host: 192.168.1.92
+    name: "Box Quarto Bia"
+#    optimistic: True

@@ -1,0 +1,51 @@
+homeassistant:
+##############################
+automation:
+
+
+  - alias: notifica1
+    trigger:
+      platform: state
+      entity_id: input_boolean.botaosimulador1
+      to: 'on'
+    action:
+      - service: notify.telegram
+        data:
+          title: 'Demonstração'
+          message: 'Queres ligar a luz do candeiroo?'
+          data:
+            inline_keyboard:
+              - "quero:/simquero1"
+              - "nao quero:/naoquero1"
+          
+  - alias: notifica2
+    hide_entity: false
+    trigger:
+      platform: event
+      event_type: telegram_callback
+      event_data:
+        data: '/simquero1'            
+    action:
+      - service: switch.turn_on
+        entity_id: switch.candeiro_sofa
+        
+  - alias: notifica3
+    hide_entity: true
+    trigger:
+      platform: event
+      event_type: telegram_callback
+      event_data:
+        data: '/naoquero1'
+    action:
+      - service: telegram_bot.answer_callback_query
+        data_template:
+          callback_query_id: '{{ trigger.event.data.id }}'
+          message: 'Ok, não ligar.'
+
+####################
+input_boolean:
+   
+  botaosimulador1:
+    name: botao de simulacao
+    initial: off 
+

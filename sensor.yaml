@@ -92,12 +92,21 @@
   unit_of_measurement: '%'
   retain: true
   
-#Estado da Bateria Paula
+
+#Estado da Bateria Rodolfo  
 - platform: mqtt
-  state_topic: "zanzito/googlehome/battery_level"
-  name: "Google Home"
-  unit_of_measurement: '%'
+  name: Estado Zanzito Rodolfo
+  state_topic: "zanzito/rodolfo/status"
+  unit_of_measurement: ''
   retain: true
+
+#Estado da Bateria Paula  
+- platform: mqtt
+  name: Estado Zanzito Paula
+  state_topic: "zanzito/paula/status"
+  unit_of_measurement: ''
+  retain: true
+
 
 
 #TEMPLATES  
@@ -105,7 +114,7 @@
   sensors:
     #Estado do Tempo
     estadodotempo:
-      friendly_name: 'Ceu'
+      friendly_name: 'Tempo'
       value_template: > 
         {%- if is_state('sensor.dark_sky_summary', 'Partly Cloudy') -%}
           Parcialmente Nublado
@@ -116,22 +125,44 @@
         {%- elif is_state('sensor.dark_sky_summary', 'Mostly Cloudy') -%}
           Muito Nublado
         {%- elif is_state('sensor.dark_sky_summary', 'Overcast') -%}
-          Nublado
+          Escuro
         {%- elif is_state('sensor.dark_sky_summary', 'Light Rain') -%}
           Aguaceiros  
         {%- elif is_state('sensor.dark_sky_summary', 'Drizzle') -%}    
-            Chuviscos  
+          Chuviscos  
         {%- elif is_state('sensor.dark_sky_summary', 'Breezy and Overcast') -%}    
-            Vento e nublado   
+          Fresco e escuro 
         {%- elif is_state('sensor.dark_sky_summary', 'Rain and Breezy') -%}    
-            Chuva e vento
+          Fresco e chuvoso
         {%- elif is_state('sensor.dark_sky_summary', 'Rain and Windy') -%}    
             Chuva e vento
         {%- elif is_state('sensor.dark_sky_summary', 'Breezy and Mostly Cloudy') -%}    
-            Vento fraco e algumas nuvens
+            Fresco e muito Nublado
         {%- elif is_state('sensor.dark_sky_summary', 'Breezy') -%}    
-            Vento fraco              
+            Fresco   
+        {%- elif is_state('sensor.dark_sky_summary', 'Breezy and Partly Cloudy') -%}    
+            Fresco e Parcialmente Nublado 
+        {%- elif is_state('sensor.dark_sky_summary', 'Drizzle and Windy') -%}    
+            Chuviscos e ventoso  
+        {%- elif is_state('sensor.dark_sky_summary', 'Light Rain and Breezy') -%}   
+            fresco com aguaceiros        
         {%- endif -%}
+    estadozanzitorodolfo:
+      friendly_name: 'Estado Zanzito Rodolfo'
+      value_template: >
+        {% if states.sensor.estado_zanzito_rodolfo.state | int == 1 %}
+        Conectado
+        {% else %}
+        Desconectado
+        {% endif %}        
+    estadozanzitopaula:
+      friendly_name: 'Estado Zanzito Paula'
+      value_template: >
+        {% if states.sensor.estado_zanzito_paula.state | int == 1 %}
+        Conectado
+        {% else %}
+        Desconectado
+        {% endif %}         
     # Horas em que o Sol Nasce e se Põe
     sunrise:
       friendly_name: 'Amanhecer'
@@ -192,6 +223,8 @@
                            mdi:battery-20
                         {% elif states.sensor.rodolfo_bateria_telemovel.state | int >= 10 %}
                            mdi:battery-10
+                        {% elif states.sensor.rodolfo_bateria_telemovel.state == "unknown" %}
+                           mdi:battery-alert
                         {% else %}
                            battery-outline
                         {% endif %}'
@@ -219,6 +252,8 @@
                            mdi:battery-20
                         {% elif states.sensor.paula_bateria_telemovel.state | int >= 10 %}
                            mdi:battery-10
+                        {% elif states.sensor.paula_bateria_telemovel.state == "unknown" %}
+                           mdi:battery-alert
                         {% else %}
                            battery-outline
                         {% endif %}'

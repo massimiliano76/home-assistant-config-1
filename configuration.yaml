@@ -50,7 +50,6 @@ group: !include groups.yaml
 sensor: !include sensor.yaml
 device_tracker: !include device_tracker.yaml
 tts: !include googletts.yaml
-input_boolean: !include input_booleans.yaml
 zone: !include zones.yaml
 camera: !include cameras.yaml
 input_select: !include input_select.yaml

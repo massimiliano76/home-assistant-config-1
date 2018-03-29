@@ -207,19 +207,16 @@ binary_sensor:
     payload_on: "Online"
     payload_off: "Offline"
    
-   
-  - platform: mqtt
-    state_topic: "room/motion"
-    name: "sensor de teste"
-    qos: 0
-    payload_on: "YES"
-    payload_off: "NO"
-    device_class: motion
 
   - platform: device_tracker_sensor
     entities:
       - device_tracker.homecinema
       - device_tracker.tvsala
+      - device_tracker.boxsala
+      - device_tracker.broadlinksala
+      
+      
+      
       
 ###############################################################################
 #                                                                             #
@@ -249,3 +246,26 @@ octoprint:
   api_key: !secret api_impressora3d
   bed: true
   number_of_tools: 1
+
+
+    
+###############################################################################
+#                                                                             #
+#                           G R O U P                                         #
+#                                                                             #
+###############################################################################     
+  
+group:
+  
+  sala:
+    view: yes
+    name: SALA
+    entities:
+      - group.salagroup
+
+  salagroup:
+    control: hidden
+    name: Sala
+    entities:
+      - switch.candeiro_sofa
+      - input_boolean.box_sala

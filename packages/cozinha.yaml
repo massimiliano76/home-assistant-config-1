@@ -95,9 +95,6 @@ automation:
       platform: time
       at: '07:46:10'
     condition:
-    - condition: state
-      entity_id: input_boolean.modoferias
-      state: 'off'
     - condition: time
       weekday:
       - mon
@@ -172,14 +169,14 @@ binary_sensor:
     
   - platform: mqtt
     state_topic: "/LDR"
-    name: "tv cozinha"
+    name: "Tv Cozinha"
     payload_on: "LDR_ON"
     payload_off: "LDR_OFF"
     
     
   - platform: mqtt
     name: "Sonoff Leds Bancada Cozinha"
-    state_topic: "tele/sonoff/LWT"
+    state_topic: "tele/sonoff108/LWT"
     value_template: "{{ value }}"
     payload_on: "Online"
     payload_off: "Offline"
@@ -199,7 +196,7 @@ binary_sensor:
   
 switch:
 
-#Switch Nº 8
+
   - platform: broadlink
     host: 192.168.1.68
     mac: 'b4:43:0d:f9:1d:03'
@@ -213,17 +210,15 @@ switch:
         command_on: 'JgBYAAABJpMSEhESEhISEhISEhISNhMREhISEhISEhISEhESEjcSEhI3ERISEhISEhISEhISEhIREhI3EjcRNxI3EjYSNxI3EQAGDgABJ0kSAAxCAAEmSRMADQU=' 
 
 
-       
-        
-        
-       
-              
-      
-#Switch Nº 3  
+
+
   - platform: mqtt
     name: "Leds Bancada Cozinha"
     state_topic: "stat/sonoff108/POWER"
     command_topic: "cmnd/sonoff108/power"
+    availability_topic: "tele/sonoff108/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
     qos: 1
     payload_on: "ON"
     payload_off: "OFF"
@@ -241,3 +236,25 @@ input_boolean:
     name: tv cozinha
     icon: mdi:television-classic
     initial: off
+    
+###############################################################################
+#                                                                             #
+#                         G R O U P                                           #
+#                                                                             #
+###############################################################################          
+    
+group:
+
+  Cozinha:
+    view: yes
+    name: COZINHA
+    entities:
+      - group.cozinhagroup
+
+  cozinhagroup:
+    control: hidden
+    name: Cozinha
+    entities:
+      - input_boolean.tv_cozinha 
+      - switch.leds_bancada_cozinha
+    
