@@ -1,6 +1,17 @@
 light.gateway_light_34ce0091e2e0:
+  name:
   platform: xiaomi_aqara
   unique_id: rgb34ce0091e2e0
 sensor.illumination_34ce0091e2e0:
+  name:
   platform: xiaomi_aqara
   unique_id: illumination34ce0091e2e0
+#media_player.mediaroom_5b8e39630e604355974957e8313223ca:
+media_player.box_sala:
+  name: box sala
+  platform: mediaroom
+  unique_id: "5b8e3963-0e60-4355-9749-57e8313223ca\r"
+media_player.box_quarto_bia:
+  name: box_quarto_bia
+  platform: mediaroom
+  unique_id: "04b3451f-aea6-405b-b20c-15117091bbea\r"

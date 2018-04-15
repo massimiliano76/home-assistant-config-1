@@ -14,10 +14,16 @@ homeassistant:
     sensor.boxsvodafone:
       icon: mdi:eye
     script.aumentarvolumeboxsala:
-      friendly_name: Clica para aumentares o volume
+      friendly_name: Box Sala
       icon: mdi:volume-plus
     script.diminuirvolumeboxsala:
-      friendly_name: Clica para diminuires o volume
+      friendly_name: Box Sala
+      icon: mdi:volume-minus
+    script.aumentarvolumeboxquarto:
+      friendly_name: Box Quarto Bia
+      icon: mdi:volume-plus
+    script.diminuirvolumeboxquarto:
+      friendly_name: Box Quarto Bia
       icon: mdi:volume-minus
 ###############################################################################
 #                                                                             #
@@ -43,14 +49,14 @@ script:
           entity_id: media_player.box_sala
           
   aumentarvolumeboxquarto:
-    alias: aumentar volume boxsala
+    alias: aumentar volume boxquarto
     sequence:
       - service: media_player.volume_up
         data:
           entity_id: media_player.box_quarto_bia
         
   diminuirvolumeboxquarto:
-    alias: aumentar volume boxsala
+    alias: aumentar volume boxquarto
     sequence:
       - service: media_player.volume_down
         data:
@@ -1234,6 +1240,7 @@ group:
 
   boxs:
     name: Boxs Vodafone
+    control: hidden
     entities:
       - sensor.boxsvodafone
       - input_select.zona_da_box

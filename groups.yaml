@@ -29,6 +29,7 @@ cameras_transito:
     - camera.ponte_vasco_da_gama_norte
     - camera.ponte_25_abril_sul
     - camera.ponte_25_abril_norte
+    
 
 
 
@@ -56,6 +57,7 @@ dispositivos_na_rede:
     - binary_sensor.device_tracker_broadlinkquartobia
     - binary_sensor.device_tracker_broadlinksala
     - binary_sensor.device_tracker_tvcozinha
+
     
 
 

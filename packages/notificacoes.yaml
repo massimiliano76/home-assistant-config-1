@@ -231,17 +231,18 @@ automation:
           - tue
           - wed
           - thu
-          - fri
     action:
-      - service: tts.google_say
-        entity_id: media_player.boxhall
+      - service: tts.amazon_polly_say
         data_template:
-          message: "Biatris está na hora de ires lavar os dentes, e ires para a cama. Não te esqueças de arrumar a mochila da escola."
+          entity_id: media_player.boxhall
+          message: >
+                 <speak><amazon:auto-breaths frequency='medium'>Biatris está na hora de ires lavar os dentes, e ires para a cama. Não te esqueças de arrumar a mochila da escola</amazon:auto-breaths></speak>     
       - delay: 00:03
-      - service: tts.google_say
-        entity_id: media_player.boxhall
+      - service: tts.amazon_polly_say
         data_template:
-          message: "biatris ja lavaste os dentes se nao lavaste estás á espera do que?"
+          entity_id: media_player.boxhall
+          message: >
+                 <speak><amazon:auto-breaths frequency='medium'>biatris ja lavaste os dentes se nao lavaste estás á espera do que?</amazon:auto-breaths></speak>     
 
   - alias: Beatriz ir para a escola
     trigger:
@@ -256,15 +257,17 @@ automation:
           - thu
           - fri
     action:
-      - service: tts.google_say
-        entity_id: media_player.boxhall
+      - service: tts.amazon_polly_say
         data_template:
-          message: "Biatris faltam 10 minutos para tocar. Prepara tudo para levares para a escola"  
+          entity_id: media_player.boxhall
+          message: >
+                 <speak><amazon:auto-breaths frequency='medium'>Olá bom dia já deram comida aos peixes? Biatris faltam 10 minutos para tocar. Prepara tudo para levares para a escola</amazon:auto-breaths></speak>            
       - delay: 00:05:00
-      - service: tts.google_say
-        entity_id: media_player.boxhall
+      - service: tts.amazon_polly_say
         data_template:
-          message: "Faltam 5 minutos para tocar, vou desligar todas as televisões, o rádio e as luzes" 
+          entity_id: media_player.boxhall
+          message: >
+                <speak><amazon:auto-breaths frequency='medium'>Faltam 5 minutos para tocar, vou desligar todas as televisões, o rádio e as luzes</amazon:auto-breaths></speak>
       - service: homeassistant.turn_off
         data_template:
           entity_id: >
@@ -280,6 +283,10 @@ automation:
       - service: input_boolean.turn_off
         data:
           entity_id: input_boolean.tv_cozinha
+
+          
+          
+          
           
 # Notifica-me se algum dos meus equipamentos ficaram offline.
 
@@ -290,6 +297,8 @@ automation:
       entity_id: binary_sensor.sonoff_candeiro_sofa, binary_sensor.sonoff_plantas_varanda, binary_sensor.sonoff_aromatizador, binary_sensor.sonoff_Interruptor_Casa_de_Banho, binary_sensor.sonoff_radio_Casa_de_Banho, binary_sensor.sonoff_interruptor_quarto_bia, binary_sensor.sonoff_leds_bancada_cozinha, binary_sensor.sonoff_candeiro_cama_bia, binary_sensor.device_tracker_broadlinkcozinha, binary_sensor.device_tracker_broadlinkquartobia, binary_sensor.device_tracker_broadlinksala, binary_sensor.device_tracker_tvcozinha
       from: 'on'
       to: 'off'
+      for: 
+        minutes: 5
     action:
     - service: notify.telegram
       data_template:

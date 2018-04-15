@@ -11,4 +11,13 @@
   codec: mp3
   format: '44khz_16bit_stereo'
   
+- platform: amazon_polly
+  aws_access_key_id: AKIAIEJGGF4EYXKVRD6Q
+  aws_secret_access_key: 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
+  text_type: ssml
+  voice: Cristiano
+
+  
+
+  
   

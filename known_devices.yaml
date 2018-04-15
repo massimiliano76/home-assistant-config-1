@@ -63,3 +63,66 @@ broadlinkquartobia:
   picture:
   track: true  
   vendor:
+
+android138a9a0024076c02lan:
+  hide_if_away: false
+  icon:
+  mac: 00:A4:ED:0D:27:34
+  name: android-138a9a0024076c02.lan
+  picture:
+  track: true
+  vendor: unknown
+
+zteg_r228:
+  hide_if_away: false
+  icon:
+  mac: BT_68:1A:B2:D5:F2:63
+  name: ZTE-G R228
+  picture:
+  track: true
+  vendor: zte corporation
+
+k10000_pro:
+  hide_if_away: false
+  icon:
+  mac: BT_DE:E9:46:03:26:8E
+  name: K10000 Pro
+  picture:
+  track: true
+  vendor: unknown
+
+paula_2:
+  hide_if_away: false
+  icon:
+  mac: BT_9C:E0:63:02:8E:13
+  name: PAULA
+  picture:
+  track: true
+  vendor: Samsung Electronics Co.,Ltd
+
+aeg_bss_4826:
+  hide_if_away: false
+  icon:
+  mac: BT_94:23:6E:19:2E:AB
+  name: AEG BSS 4826
+  picture:
+  track: true
+  vendor: Shenzhen Junlan Electronic Ltd
+
+ipad:
+  hide_if_away: false
+  icon:
+  mac: BT_64:E6:82:F1:BE:11
+  name: iPad
+  picture:
+  track: true
+  vendor: unknown
+
+desktoplcolt03:
+  hide_if_away: false
+  icon:
+  mac: BT_80:A5:89:59:27:84
+  name: DESKTOP-LCOLT03
+  picture:
+  track: true
+  vendor: AzureWave Technology Inc.

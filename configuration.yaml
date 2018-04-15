@@ -10,42 +10,18 @@ homeassistant:
   packages: !include_dir_named packages
 config:
 
-
-
-
-
 frontend:
   themes: !include_dir_merge_named themes/
   extra_html_url:
     - /local/custom_ui/state-card-custom-ui.html
   extra_html_url_es5:
     - /local/custom_ui/state-card-custom-ui-es5.html
-  
-
-mqtt:
-
-  broker: 127.0.0.1
-  port: 1883
-  username: !secret username_mqtt
-  password: !secret password_mqtt
-  keepalive: 60
-  
-  
-xiaomi_aqara:
-  discovery_retry: 5
-  gateways:   
-    - mac: !secret xiaomi_mac
-      key: !secret xiaomi_key
-      host: 192.168.1.79
-
-
-
-
 
 
 ############
 # INCLUDES #
 ############
+
 group: !include groups.yaml
 sensor: !include sensor.yaml
 device_tracker: !include device_tracker.yaml
@@ -54,10 +30,17 @@ zone: !include zones.yaml
 camera: !include cameras.yaml
 input_select: !include input_select.yaml
 script: !include script.yaml
-proximity: !include_dir_merge_named proximity
+proximity: !include proximity.yaml
 history_graph: !include history_graph.yaml
 
 
+
+xiaomi_aqara:
+  discovery_retry: 5
+  gateways:   
+    - mac: !secret xiaomi_mac
+      key: !secret xiaomi_key
+      host: 192.168.1.79
 
     
 

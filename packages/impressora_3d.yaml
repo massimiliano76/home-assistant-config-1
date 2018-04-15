@@ -204,7 +204,7 @@ automation:
           message: ""
           data:
             photo:
-              url: http://192.168.1.239:81/snapshot.cgi?user=admin&pwd=admin  
+              url: http://192.168.1.101/webcam/?action=stream 
               caption: "A impressão chegou aos 50%"              
 
 
@@ -222,7 +222,7 @@ automation:
           message: ""
           data:
             photo:
-              url: http://192.168.1.239:81/snapshot.cgi?user=admin&pwd=admin
+              url: http://192.168.1.101/webcam/?action=stream
               caption: "A impressão chegou ao fim"                
       - delay:
           minutes: 2   

@@ -318,6 +318,5 @@ group:
 media_player:
 
   - platform: mediaroom
-    host: 192.168.1.92
-    name: "Box Quarto Bia"
+
 #    optimistic: True

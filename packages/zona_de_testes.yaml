@@ -1,9 +1,6 @@
 homeassistant:
 
 
-          
-
-
 
 ##          {% if states.light.ledentrada.attributes.rgb_color ~'' == "(255, 255, 255)" %}
        
@@ -100,7 +97,16 @@ script:
 #            photo:
 #              url: http://192.168.1.239:81/snapshot.cgi?user=admin&pwd= 
 #              caption: "Dia {{states.sensor.date.state}} às {{states.sensor.time.state}}"
-#     
+#  
+  polly:
+    sequence:
+      - service: tts.amazon_polly_say
+        data_template:
+          entity_id: media_player.boxhall
+          message: >
+            <speak><amazon:auto-breaths frequency='medium'>teste</amazon:auto-breaths></speak>
+
+   
   telegram1: 
     sequence:  
       - service: telegram_bot.send_message
@@ -247,9 +253,26 @@ script:
 binary_sensor:
 
   - platform: mqtt
-    state_topic: "room/motion"
-    name: "sensor de teste"
+    state_topic: "cmnd/reedswitch/POWER1"
+    name: "sensorteste"
     qos: 0
-    payload_on: "YES"
-    payload_off: "NO"
-    device_class: motion
+    payload_on: "ON"
+    payload_off: "OFF"
+    device_class: window
+    retain: true
+    
+    
+    
+    
+    
+
+    
+cover:
+  - platform: mqtt
+    name: "Estores Cozinha"
+    state_topic: "cmnd/reedswitch/POWER1"
+    qos: 0
+    retain: true
+    payload_on: "ON"
+    payload_off: "OFF"
+    device_class: window

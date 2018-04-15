@@ -18,12 +18,41 @@ homeassistant:
     
 ###############################################################################
 #                                                                             #
-#                         INPUT   BOOLEAN                                     #
+#                        C L I M A T E                                        #
 #                                                                             #
 ###############################################################################      
         
-    
+climate:
+  - platform: broadlink
+    name: Ar Condicionado Sala
+    host: 192.168.1.100
+    mac: '34:ea:34:58:8a:1d'
+    ircodes_ini: 'broadlink_climate_codes/daikin.ini'
+    min_temp: 10
+    max_temp: 30
+    target_temp: 20
+#    temp_sensor: sensor.living_room_temperature
+    default_operation: idle
+    default_fan_mode: mid
+    customize:
+      operations:
+        - idle
+        - cool
+        - heat
+      fan_modes:
+        - low
+        - mid
+        - high
+        - auto    
 
+        
+###############################################################################
+#                                                                             #
+#                         INPUT   BOOLEAN                                     #
+#                                                                             #
+###############################################################################      
+                
+        
 input_boolean:
    
   box_sala:
@@ -226,9 +255,7 @@ binary_sensor:
        
 media_player:
 
-  - platform: mediaroom
-    host: 192.168.1.64
-    name: "Box Sala"
+#  - platform: mediaroom
 #    optimistic: True
 
 
@@ -269,3 +296,4 @@ group:
     entities:
       - switch.candeiro_sofa
       - input_boolean.box_sala
+      - climate.ar_condicionado_sala
