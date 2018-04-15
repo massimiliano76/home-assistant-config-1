@@ -14,16 +14,16 @@ homeassistant:
     sensor.boxsvodafone:
       icon: mdi:eye
     script.aumentarvolumeboxsala:
-      friendly_name: Box Sala
+      friendly_name: Aumentar volume Box Sala
       icon: mdi:volume-plus
     script.diminuirvolumeboxsala:
-      friendly_name: Box Sala
+      friendly_name: Diminuir volume Box Sala
       icon: mdi:volume-minus
     script.aumentarvolumeboxquarto:
-      friendly_name: Box Quarto Bia
+      friendly_name: Aumentar volume Box Quarto Bia
       icon: mdi:volume-plus
     script.diminuirvolumeboxquarto:
-      friendly_name: Box Quarto Bia
+      friendly_name: Diminuir volume Box Quarto Bia
       icon: mdi:volume-minus
 ###############################################################################
 #                                                                             #
